@@ -1,6 +1,6 @@
 LIBS = -lSDL2
 PROG = myapp
-OBJS = main.o core.o
+OBJS = main.o src/core.o
 
 #-include config.mak
 CFLAGS += -I/opt/local/include
