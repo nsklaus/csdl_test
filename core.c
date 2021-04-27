@@ -8,6 +8,7 @@
 SDL_Window *window = NULL;
 SDL_Renderer *renderer = NULL;
 SDL_Event event;
+bool quit = false;
 
 
 void createWindow(){ 
@@ -21,19 +22,22 @@ void createRenderer(){
 void getEvents(){
     if (SDL_PollEvent(&event)) {
         if (event.type == SDL_QUIT) {
+            quit = true;
             quitGame();
         }
     }
 }
 
 void update() {
+    if (!quit) {
         SDL_SetRenderDrawColor( renderer, 100, 149, 237, 255);
         SDL_RenderClear( renderer );
         SDL_RenderPresent( renderer );
+    }
 }
 
 void quitGame() {
-    // SDL_DestroyRenderer(&renderer);
-    // SDL_DestroyWindow(&window);
-    // SDL_Quit();
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
 }
