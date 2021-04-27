@@ -1,5 +1,11 @@
 #include "core.h"
 
 int main(int argc, char* args[]) {
-  initfw();
+  SDL_Init(SDL_INIT_VIDEO);
+  getWindow();
+  getRenderer();
+  while(true) {
+    getEvents();
+    update();
+  }
 }
