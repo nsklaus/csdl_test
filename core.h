@@ -9,8 +9,8 @@ extern SDL_Renderer *renderer;
 extern SDL_Event event;
 
 bool init();
-SDL_Window* getWindow();
-SDL_Renderer* getRenderer();
+void createWindow();
+void createRenderer();
 void getEvents();
 void update();
 void quitGame();

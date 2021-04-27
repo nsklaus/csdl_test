@@ -10,14 +10,12 @@ SDL_Renderer *renderer = NULL;
 SDL_Event event;
 
 
-SDL_Window* getWindow(){ 
+void createWindow(){ 
     window = SDL_CreateWindow( "hello_sdl2", 50, 50, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
-    return window;
 }
 
-SDL_Renderer* getRenderer(){
+void createRenderer(){
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    return renderer;
 }
 
 void getEvents(){
