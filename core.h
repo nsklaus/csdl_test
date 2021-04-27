@@ -7,9 +7,7 @@ extern SDL_Window *window;
 extern SDL_Surface *screenSurface;
 extern SDL_Renderer *renderer;
 extern SDL_Event event;
-extern bool quit;
 
-bool init();
 void createWindow();
 void createRenderer();
 int getEvents();

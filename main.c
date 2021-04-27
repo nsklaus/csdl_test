@@ -7,5 +7,4 @@ int main(int argc, char* args[]) {
   while(getEvents() != 1 ) {
     update();
   }
-  
 }

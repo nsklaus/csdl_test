@@ -8,8 +8,6 @@
 SDL_Window *window = NULL;
 SDL_Renderer *renderer = NULL;
 SDL_Event event;
-bool quit = false;
-
 
 void createWindow(){ 
     window = SDL_CreateWindow( "hello_sdl2", 50, 50, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
@@ -25,8 +23,6 @@ int getEvents(){
             quitGame();
             return 1;
         }
-        else
-            return 0;
     }
     return 0;
 }
