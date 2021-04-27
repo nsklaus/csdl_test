@@ -12,7 +12,7 @@ extern bool quit;
 bool init();
 void createWindow();
 void createRenderer();
-void getEvents();
+int getEvents();
 void update();
 void quitGame();
 #endif

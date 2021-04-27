@@ -19,21 +19,22 @@ void createRenderer(){
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 }
 
-void getEvents(){
-    if (SDL_PollEvent(&event)) {
+int getEvents(){
+    while (SDL_PollEvent(&event)) {
         if (event.type == SDL_QUIT) {
-            quit = true;
             quitGame();
+            return 1;
         }
+        else
+            return 0;
     }
+    return 0;
 }
 
 void update() {
-    if (!quit) {
-        SDL_SetRenderDrawColor( renderer, 100, 149, 237, 255);
-        SDL_RenderClear( renderer );
-        SDL_RenderPresent( renderer );
-    }
+    SDL_SetRenderDrawColor( renderer, 100, 149, 237, 255);
+    SDL_RenderClear( renderer );
+    SDL_RenderPresent( renderer );
 }
 
 void quitGame() {
