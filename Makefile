@@ -1,9 +1,9 @@
 LIBS = -lSDL2
 PROG = myapp
-OBJS = main.o src/core.o
+OBJS = main.o src/core.o src/map.o
 
 #-include config.mak
-CFLAGS += -I/opt/local/include
+CFLAGS += -I/opt/local/include -g
 LDFLAGS += -L/opt/local/lib
 
 all: $(PROG)
