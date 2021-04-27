@@ -1,6 +1,5 @@
 #ifndef CORE_H_INCLUDED
 #define CORE_H_INCLUDED
-#include <stdbool.h>
 #include <SDL2/SDL.h>
 
 extern SDL_Window *window;
