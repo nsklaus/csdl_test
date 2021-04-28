@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <json-c/json.h>
 #include "map.h"
 
 void loadmap() {
@@ -18,7 +19,6 @@ void loadmap() {
     if ( file != NULL ) 
     {
         char line[256]; // maximum line size
-        //const char *mystring = "layer id"; 
         while (fgets(line, sizeof line, file) != NULL) // read line by line 
         {
             for (int i = 0; i < 9; i++ ) { // check each line with each entry of patterns array
