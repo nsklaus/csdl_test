@@ -24,8 +24,7 @@ struct mymap {
 
 void loadmap() {
 
-    char *patterns[10] = { "map version", "tileset firstgid", // pattern to search for
-                        "image source", "layer id","data encoding " };
+    struct mymap map;
 
     static const char filename[] = "assets/level01.tmx"; // map file
     FILE *file = fopen(filename, "r");
@@ -34,33 +33,19 @@ void loadmap() {
     if ( file != NULL ) 
     {
         char line[256]; // maximum line size
-        char *bleh = "";
         while (fgets(line, sizeof line, file) != NULL) // read line by line 
         {
-
             // get map width
-            if (strstr(line, "map version")) {
-                printf("\noriginal line:\n=============\n %s \n", line);
-                fflush(stdout); 
-                char *map_width = strstr(line, "width="); 
-                int pos = map_width - line;
-                char *result; // the "result"
-
+            if (strstr(line, "map version")) { // select line where width property exists
+                char *map_width = strstr(line, "width="); // search for property in line
+                int pos = map_width - line; // find position of property in line
+                char *result; // store the "result"
                 result = strtok(line + pos, "\""); // find the first double quote
                 result = strtok(NULL, "\"");   // find the second double quote
-                printf("line until prop:\n===============\n %s \n", line);
-                printf("position of prop in line = %ld \n", map_width - line);
-                printf("grabbed prop 'width' = %s\n\n", result);
-                fflush(stdout); 
+                map.map_width = atoi(result); // cast string to int, set struct member
             }
-            // for (int i = 0; i < 9; i++ ) { // check each line with each entry of patterns array
-            //     if (patterns[i] != NULL && strstr(line,patterns[i])) // if pattern is found
-            //     {
-            //         printf("%s\n",line); // print it
-            //         fflush(stdout); 
-            //     }
-            // }
         } 
+        printf("width = %d\n", map.map_width); // debug output
         fclose(file);
     } 
     else 
