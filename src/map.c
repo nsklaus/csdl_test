@@ -5,41 +5,62 @@
 #include "jsmn.h"
 #include "map.h"
 
+char* concat_2_strings(char* str1, char *str2) { 
+    char* new = malloc(strlen(str1) + strlen(str2) + 1);
+    strcpy(new, str1); 
+    strcat(new, str2); 
+    return new; 
+}
+//bleh = concat_2_strings(bleh, line);
+
+struct mymap {
+    int map_width;
+    int map_height;
+    int layer_name;
+    char *tileset_name;
+    int tileset_firstgid;
+
+};
+
 void loadmap() {
 
-    /* test jsmn json parser */
-    jsmn_parser parser;
-    jsmntok_t tokens[10];
-
-    jsmn_init(&parser);
-
-
-    /* WIP: open map file, read line by line, search for patterns 
-    if found store it, in array, later on process the array to construct game map */
     char *patterns[10] = { "map version", "tileset firstgid", // pattern to search for
-                           "image source", "layer id" };  
-                           //, "data encoding" };
+                        "image source", "layer id","data encoding " };
 
-    static const char filename[] = "assets/level01.json"; // map file
+    static const char filename[] = "assets/level01.tmx"; // map file
     FILE *file = fopen(filename, "r");
 
     int count = 0;
     if ( file != NULL ) 
     {
         char line[256]; // maximum line size
-        char *p = 0; 
-        int len = 0; 
+        char *bleh = "";
         while (fgets(line, sizeof line, file) != NULL) // read line by line 
         {
-            int llen = strlen(line);  // get length of 'line'
-            p = realloc(p, len + llen + 1);  // ?
-            memcpy(p+len, line, llen);   // ?
-            len += llen;   // ?
-        } 
-        printf("%s \n", p); 
-        jsmn_parse(&parser, p, strlen(p), tokens, 10);
 
-        p[len] = 0;
+            // get map width
+            if (strstr(line, "map version")) {
+                printf("\noriginal line:\n=============\n %s \n", line);
+                fflush(stdout); 
+                char *map_width = strstr(line, "width="); 
+                int pos = map_width - line;
+                char *result; // the "result"
+
+                result = strtok(line + pos, "\""); // find the first double quote
+                result = strtok(NULL, "\"");   // find the second double quote
+                printf("line until prop:\n===============\n %s \n", line);
+                printf("position of prop in line = %ld \n", map_width - line);
+                printf("grabbed prop 'width' = %s\n\n", result);
+                fflush(stdout); 
+            }
+            // for (int i = 0; i < 9; i++ ) { // check each line with each entry of patterns array
+            //     if (patterns[i] != NULL && strstr(line,patterns[i])) // if pattern is found
+            //     {
+            //         printf("%s\n",line); // print it
+            //         fflush(stdout); 
+            //     }
+            // }
+        } 
         fclose(file);
     } 
     else 
@@ -47,4 +68,5 @@ void loadmap() {
         printf("file doesn't exist\n");
         fflush(stdout); 
     }
+
 }
