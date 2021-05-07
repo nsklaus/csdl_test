@@ -1,10 +1,10 @@
-LIBS = -lSDL2
+LIBS = -lSDL2 -lxml2
 PROG = myapp
 OBJS = main.o src/core.o src/map.o
 
 #-include config.mak
-CFLAGS += -I/opt/local/include -g
-LDFLAGS += -L/opt/local/lib
+CFLAGS += -I/opt/local/include -Ilibxml2  -g
+LDFLAGS += -L/opt/local/lib 
 
 all: $(PROG)
 $(PROG): $(OBJS)
