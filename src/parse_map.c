@@ -40,9 +40,7 @@ static void print_element_names(xmlNode * a_node, struct mymap *map)
         char* data = "data"; // get layer data
         if ( strcmp(name,data) == 0 ){
             map->layer_length = map->map_width * map->map_height;
-            map->layer_data[0] = malloc(map->layer_length * sizeof(int)); 
-            map->layer_data[1] = malloc(map->layer_length * sizeof(int)); 
-            map->layer_data[2] = malloc(map->layer_length * sizeof(int));
+            map->layer_data[map->layer_id] = malloc(map->layer_length * sizeof(int)); 
 
             printf(" --name = %s, \n", cur_node->name);
             //printf(" content = %s \n", cur_node->children->content) // commented out to reduce output on term
@@ -57,7 +55,7 @@ static void print_element_names(xmlNode * a_node, struct mymap *map)
                 map->layer_data[map->layer_id][counter] = a;
                 // if conditions to reduce output, and confirm data is 
                 // being filled in "layer_data[][]" first dimension
-                if (a != 0 && a != 507 && a !=508 && a != 178 && a != 476 &&  a!= 146 && a != 147) {
+                if (a != 0 && a != 507 && a !=508 && a != 178 && a != 476 &&  a!= 146 && a != 147 ) {
                     printf("layer_data[%d][%d]=%d\n", map->layer_id, counter, map->layer_data[map->layer_id][counter]);
                 }
                 pt = strtok (NULL, ",");
