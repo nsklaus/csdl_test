@@ -1,6 +1,6 @@
 LIBS = -lSDL2 -lxml2
 PROG = myapp
-OBJS = main.o src/core.o src/map.o
+OBJS = main.o src/core.o src/parse_map.o src/make_map.o
 
 #-include config.mak
 CFLAGS += -I/opt/local/include -Ilibxml2  -g
