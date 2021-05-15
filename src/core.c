@@ -1,4 +1,5 @@
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include "core.h"
 
 #define SCREEN_WIDTH 640
@@ -7,6 +8,7 @@
 SDL_Window *window = NULL;
 SDL_Renderer *renderer = NULL;
 SDL_Event event;
+//SDL_Surface * image;
 
 void createWindow(){ 
     window = SDL_CreateWindow( "hello_sdl2", 50, 50, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
@@ -26,9 +28,15 @@ int getEvents(){
     return 0;
 }
 
-void update() {
+SDL_Renderer *SDL_GetRenderer(){
+    return renderer;
+}
+
+
+void update(SDL_Texture * texture ) {
     SDL_SetRenderDrawColor( renderer, 100, 149, 237, 255);
     SDL_RenderClear( renderer );
+    SDL_RenderCopy(renderer, texture, NULL, NULL);
     SDL_RenderPresent( renderer );
 }
 
