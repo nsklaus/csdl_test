@@ -12,6 +12,7 @@ void createWindow();
 void createRenderer();
 SDL_Renderer *SDL_GetRenderer();
 int getEvents();
-void update(SDL_Texture * texture);
+void update();
+void render(SDL_Texture * texture);
 void quitGame();
 #endif

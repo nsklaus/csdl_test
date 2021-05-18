@@ -36,8 +36,12 @@ SDL_Renderer *SDL_GetRenderer(){
 void update(SDL_Texture * texture ) {
     SDL_SetRenderDrawColor( renderer, 100, 149, 237, 255);
     SDL_RenderClear( renderer );
-    SDL_RenderCopy(renderer, texture, NULL, NULL);
+    render(texture);
     SDL_RenderPresent( renderer );
+}
+
+void render(SDL_Texture * texture){
+    SDL_RenderCopy(renderer, texture, NULL, NULL);
 }
 
 void quitGame() {
