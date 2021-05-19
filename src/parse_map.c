@@ -61,7 +61,7 @@ static void print_element_names(xmlNode * a_node, struct mymap *map)
         print_element_names( cur_node->children, map );
     }
 }
-struct mymap *loadmap(char* filename){
+struct mymap* loadmap(char* filename){
 
     struct mymap *map = malloc(sizeof(struct mymap));
     xmlDoc *doc = NULL;

@@ -1,5 +1,3 @@
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
 #include "core.h"
 
 #define SCREEN_WIDTH 640
@@ -34,14 +32,17 @@ SDL_Renderer *SDL_GetRenderer(){
 
 
 void update(SDL_Texture * texture ) {
-    SDL_SetRenderDrawColor( renderer, 100, 149, 237, 255);
-    SDL_RenderClear( renderer );
-    render(texture);
-    SDL_RenderPresent( renderer );
+    // SDL_SetRenderDrawColor( renderer, 100, 149, 237, 255);
+    // SDL_RenderClear( renderer );
+    // //render(texture);
+    // SDL_RenderPresent( renderer );
 }
 
-void render(SDL_Texture * texture){
-    SDL_RenderCopy(renderer, texture, NULL, NULL);
+void render(SDL_Texture * texture, SDL_Rect *srcrect, const SDL_Rect *dstrect){
+    SDL_SetRenderDrawColor( renderer, 100, 149, 237, 255);
+    SDL_RenderClear( renderer );
+    SDL_RenderCopy(renderer, texture, srcrect, dstrect);
+    SDL_RenderPresent( renderer );
 }
 
 void quitGame() {

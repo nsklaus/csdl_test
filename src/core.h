@@ -1,5 +1,6 @@
 #ifndef CORE_H_INCLUDED
 #define CORE_H_INCLUDED
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
@@ -13,6 +14,6 @@ void createRenderer();
 SDL_Renderer *SDL_GetRenderer();
 int getEvents();
 void update();
-void render(SDL_Texture * texture);
+void render(SDL_Texture * texture, SDL_Rect *srcrect, const SDL_Rect *dstrect);
 void quitGame();
 #endif

@@ -1,5 +1,5 @@
-#ifndef MAP_H_INCLUDED
-#define MAP_H_INCLUDED
+#ifndef PARSEMAP_H_INCLUDED
+#define PARSEMAP_H_INCLUDED
 
 struct  mymap{
     int map_width;
@@ -14,6 +14,6 @@ struct  mymap{
 } ;
 
 //void loadmap();
-struct mymap *loadmap(char* filename);
+struct mymap* loadmap(char* filename);
 
 #endif
