@@ -5,6 +5,6 @@
 #include "core.h"
 #include <stdio.h>
 
-void process_map(struct mymap *map);
+SDL_Surface *process_map(struct mymap *map);
 
 #endif
