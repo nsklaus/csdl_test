@@ -26,11 +26,6 @@ int getEvents(){
     return 0;
 }
 
-SDL_Renderer *SDL_GetRenderer(){
-    return renderer;
-}
-
-
 void update() {
     SDL_SetRenderDrawColor( renderer, 100, 149, 237, 255);
     SDL_RenderClear( renderer );
