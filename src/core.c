@@ -31,11 +31,11 @@ SDL_Renderer *SDL_GetRenderer(){
 }
 
 
-void update(SDL_Texture * texture ) {
-    // SDL_SetRenderDrawColor( renderer, 100, 149, 237, 255);
-    // SDL_RenderClear( renderer );
+void update() {
+    SDL_SetRenderDrawColor( renderer, 100, 149, 237, 255);
+    SDL_RenderClear( renderer );
     // //render(texture);
-    // SDL_RenderPresent( renderer );
+    SDL_RenderPresent( renderer );
 }
 
 void render(SDL_Texture * texture, SDL_Rect *srcrect, const SDL_Rect *dstrect){

@@ -10,11 +10,8 @@ int main(int argc, char* args[]) {
   struct mymap * map = loadmap("assets/level01.tmx");
   //process_map(map);
 
-  //SDL_Surface * image = IMG_Load("assets/bluemetal.png");
-  //SDL_Texture * texture = SDL_CreateTextureFromSurface(renderer, image);
-
   while(getEvents() != 1 ) {
-    //update(texture);
-    process_map(map);
+    //update();  //app work fine
+    process_map(map); // app gets unresponsive
   }
 }
