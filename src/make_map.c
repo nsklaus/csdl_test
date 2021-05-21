@@ -23,10 +23,12 @@ SDL_Surface *process_map(struct mymap *map){
         srcrect.x = ts_x * 16; // start cutting at said coords on tileset
         srcrect.y = ts_y * 16;
 
-        dstrect.x =  i * 16; // place the cut on the render surface according to value of 'i'
+        
         if (i % 80 == 0){   // if i mod 80 = 0 it means new line
-            dstrect.y = i * 16;
+            dstrect.y = (i / 80) * 16;
             dstrect.x = 0;
+        } else {
+            dstrect.x +=  1 * 16; // place the cut on the render surface according to value of 'i'
         }
 
         if(SDL_BlitSurface(image, &srcrect, map_img, &dstrect))
