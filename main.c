@@ -9,14 +9,11 @@ int main(int argc, char* args[]) {
   createRenderer();
   struct mymap * map = loadmap("assets/level01.tmx");
   SDL_Surface * map_img = process_map(map);
-
-  //process_map(map);
+  SDL_Texture * texture = SDL_CreateTextureFromSurface(renderer, map_img);
 
   while(getEvents() != 1 ) {
-    //update();  //app work fine
-    SDL_Texture * texture = SDL_CreateTextureFromSurface(renderer, map_img);
-    SDL_Rect srcrect = {0,0,320,240};
-    SDL_Rect dstrect = {0,0,320,240};
+    SDL_Rect srcrect = {0,0,640,480};
+    SDL_Rect dstrect = {0,0,640,480};
     render(texture, &srcrect, &dstrect);
     SDL_Delay(20); // 50 fps
   }

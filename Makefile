@@ -1,6 +1,8 @@
 LIBS = -lSDL2 -lxml2 -lSDL2_image
 PROG = myapp
-OBJS = main.o src/core.o src/parse_map.o src/make_map.o
+#OBJS = main.o src/core.o src/parse_map.o src/make_map.o
+SRCS = main.c $(sort $(wildcard src/*.c))
+OBJS = $(SRCS:.c=.o)
 
 -include config.mak
 
