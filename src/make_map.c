@@ -17,22 +17,22 @@ SDL_Surface *process_map(struct mymap *map){
     // loop around mymap struct elements built map, call render:
     for ( int i = 0; i < map->layer_length; i++ ){
         int cur_id = map->layer_data[0][i]; // get value of tiled
+
         int ts_x = (cur_id -1) % 71; // find x coords on tileset
         int ts_y = (cur_id -1) / 71; // find y coords on tileset
         
         srcrect.x = ts_x * 16; // start cutting at said coords on tileset
         srcrect.y = ts_y * 16;
 
-        
+        dstrect.x += 1 * 16;
         if (i % 80 == 0){   // if i mod 80 = 0 it means new line
             dstrect.y = (i / 80) * 16;
             dstrect.x = 0;
-        } else {
-            dstrect.x +=  1 * 16; // place the cut on the render surface according to value of 'i'
         }
 
         if(SDL_BlitSurface(image, &srcrect, map_img, &dstrect))
 		    fprintf(stderr, "%s\n", SDL_GetError());
+        
     }
     return map_img;
 }

@@ -8,6 +8,8 @@ extern SDL_Window *window;
 extern SDL_Surface *screenSurface;
 extern SDL_Renderer *renderer;
 extern SDL_Event event;
+int map_x;
+int map_y;
 
 void createWindow();
 void createRenderer();
