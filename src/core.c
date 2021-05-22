@@ -1,7 +1,7 @@
 #include "core.h"
 
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 480
+#define SCREEN_WIDTH 320
+#define SCREEN_HEIGHT 240
 
 SDL_Window *window = NULL;
 SDL_Renderer *renderer = NULL;

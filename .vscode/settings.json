@@ -3,6 +3,7 @@
         "sdl.h": "c",
         "core.h": "c",
         "string.h": "c",
-        "iosfwd": "c"
+        "iosfwd": "c",
+        "parse_map.h": "c"
     }
 }

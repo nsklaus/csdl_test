@@ -12,8 +12,8 @@ int main(int argc, char* args[]) {
   SDL_Texture * texture = SDL_CreateTextureFromSurface(renderer, map_img);
 
   while(getEvents() != 1 ) {
-    SDL_Rect srcrect = {0,0,640,480};
-    SDL_Rect dstrect = {0,0,640,480};
+    SDL_Rect srcrect = {0,0,320,240};
+    SDL_Rect dstrect = {0,0,320,240};
     render(texture, &srcrect, &dstrect);
     SDL_Delay(20); // 50 fps
   }
