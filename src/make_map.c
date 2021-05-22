@@ -7,12 +7,12 @@ SDL_Surface *process_map(struct mymap *map){
     int width = map->map_width * 16;
     int height = map->map_height * 16;
 
-    SDL_Surface * map_img =
-	SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
-
+    SDL_Surface * map_img = SDL_CreateRGBSurface(0, width, height, 32, 0, 0, 0, 0);
     SDL_Surface * image = IMG_Load("assets/blueMetal.png");
+
     if(!image) 
         exit(1);
+
     int ts_x = 0;
     int ts_y = 0;
     // loop around mymap struct elements built map, call render:
@@ -25,7 +25,7 @@ SDL_Surface *process_map(struct mymap *map){
             srcrect.x = ts_x * 16; // start cutting at said coords on tileset
             srcrect.y = ts_y * 16;
         } else {
-            srcrect.x = 6*16;
+            srcrect.x = 6*16; // manualy select an empty tile from tileset
             srcrect.y = 0;
         }
 
@@ -37,7 +37,6 @@ SDL_Surface *process_map(struct mymap *map){
 
         if(SDL_BlitSurface(image, &srcrect, map_img, &dstrect))
 		    fprintf(stderr, "%s\n", SDL_GetError());
-        
     }
     return map_img;
 }

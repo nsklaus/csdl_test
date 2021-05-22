@@ -57,13 +57,46 @@ void update() {
 }
 
 void render(SDL_Texture * texture, SDL_Rect *srcrect, const SDL_Rect *dstrect){
-    //SDL_SetRenderDrawColor( renderer, 100, 149, 237, 255);
     SDL_RenderClear( renderer );
+
+    //limit map offset
+    if (map_x < 0) map_x = 0;
+    if (map_x > 960) map_x = 960;
+    if (map_y < 0) map_y = 0;
+    if (map_y > 400) map_y = 400;
+
     srcrect->x = map_x;
     srcrect->y = map_y;
-    //printf("srcrect.x=%d\n",srcrect.x);
+    
     SDL_RenderCopy(renderer, texture, srcrect, dstrect);
+
+    int texW, texH = 0; 
+    SDL_QueryTexture(render_font(srcrect), NULL, NULL, &texW, &texH);
+    SDL_Rect dstrectX = { 0, 0, texW, texH };
+    SDL_RenderCopy(renderer, render_font(srcrect), NULL, &dstrectX);
+
     SDL_RenderPresent( renderer );
+}
+
+SDL_Texture *render_font(SDL_Rect *srcrect){
+    SDL_Color color = { 255, 255, 255 };
+    TTF_Font* font = TTF_OpenFont("/Library/Fonts/Arial Unicode.ttf", 24);
+    if(!font){printf("Unable to open font");exit(1);}
+
+    //map offset XY value
+    int x = srcrect->x;
+    int y = srcrect->y;
+    char *p, castx[5], casty[5], final[32];
+    char *prefix1 = "mapx=";
+    char *prefix2 = "  mapy=";
+    sprintf(castx,"%d",x);
+    sprintf(casty,"%d",y);
+    snprintf(final, sizeof(final), "%s%s%s%s", prefix1, castx, prefix2, casty);
+    p = final;
+
+    SDL_Surface * surface = TTF_RenderText_Solid(font, p, color);
+    SDL_Texture * tex = SDL_CreateTextureFromSurface(renderer, surface);
+    return tex;
 }
 
 void quitGame() {

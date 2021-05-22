@@ -3,6 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 
 extern SDL_Window *window;
 extern SDL_Surface *screenSurface;
@@ -17,5 +18,6 @@ SDL_Renderer *SDL_GetRenderer();
 int getEvents();
 void update();
 void render(SDL_Texture * texture, SDL_Rect *srcrect, const SDL_Rect *dstrect);
+SDL_Texture *render_font(SDL_Rect *srcrect);
 void quitGame();
 #endif

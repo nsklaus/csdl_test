@@ -5,6 +5,7 @@
 int main(int argc, char* args[]) {
 
   SDL_Init(SDL_INIT_VIDEO);
+  TTF_Init();
   createWindow();
   createRenderer();
   struct mymap * map = loadmap("assets/level01.tmx");
