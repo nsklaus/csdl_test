@@ -12,6 +12,7 @@ extern SDL_Window *window;
 extern SDL_Surface *screenSurface;
 extern SDL_Renderer *renderer;
 extern SDL_Event event;
+extern TTF_Font *font;
 //int map_x;
 //int map_y;
 

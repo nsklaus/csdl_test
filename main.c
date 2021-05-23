@@ -8,7 +8,9 @@ int main(int argc, char* args[]) {
   TTF_Init();
   createWindow();
   createRenderer();
-//  createFont();
+  font = TTF_OpenFont("assets/roboto.ttf", 24);
+  if(!font){printf("Unable to open font");exit(1);}
+
   struct mymap * map = loadmap("assets/level01.tmx");
   SDL_Surface * map_img = process_map(map);
   SDL_Texture * texture = SDL_CreateTextureFromSurface(renderer, map_img);
@@ -21,5 +23,6 @@ int main(int argc, char* args[]) {
     break;
   }
   quitGame();
+  TTF_CloseFont(font);
 }
 

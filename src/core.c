@@ -22,11 +22,6 @@ void createRenderer(){
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
 }
 
-void createFont(){
-    font = TTF_OpenFont("assets/roboto.ttf", 24);
-    if(!font){printf("Unable to open font");exit(1);}
-}
-
 int getEvents(){
     while (SDL_PollEvent(&event)) {
         if (event.type == SDL_QUIT) {
