@@ -89,10 +89,3 @@ SDL_Texture *render_font(SDL_Rect *srcrect){
     return tex;
 }
 
-void quitGame() {
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-    TTF_Quit();
-    SDL_Quit();
-}
-

@@ -22,6 +22,5 @@ int getEvents();
 void update();
 void render(SDL_Texture * texture, SDL_Rect *srcrect, const SDL_Rect *dstrect);
 SDL_Texture *render_font(SDL_Rect *srcrect);
-void quitGame();
 #endif
 
