@@ -6,7 +6,10 @@ int main(int argc, char* args[]) {
 
   SDL_Init(SDL_INIT_VIDEO);
   TTF_Init();
-  createWindow();
+  window = SDL_CreateWindow( "hello_sdl2",
+        SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+        SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
+
   createRenderer();
   font = TTF_OpenFont("assets/roboto.ttf", 24);
   if(!font){printf("Unable to open font");exit(1);}
