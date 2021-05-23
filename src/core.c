@@ -1,8 +1,5 @@
 #include "core.h"
 
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 480
-
 SDL_Window *window = NULL;
 SDL_Renderer *renderer = NULL;
 SDL_Event event;
@@ -13,27 +10,9 @@ int map_x;
 int map_y;
 
 
-
-void createWindow(){
-    window = SDL_CreateWindow( "hello_sdl2",
-	SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-	SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
-
-}
-
-void createRenderer(){
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-}
-
-void createFont(){
-    font = TTF_OpenFont("assets/roboto.ttf", 24);
-    if(!font){printf("Unable to open font");exit(1);}
-}
-
 int getEvents(){
     while (SDL_PollEvent(&event)) {
         if (event.type == SDL_QUIT) {
-            quitGame();
             return 1;
         }
         switch( event.type ){
@@ -108,12 +87,5 @@ SDL_Texture *render_font(SDL_Rect *srcrect){
     SDL_Surface * surface = TTF_RenderText_Solid(font, p, color);
     SDL_Texture * tex = SDL_CreateTextureFromSurface(renderer, surface);
     return tex;
-}
-
-void quitGame() {
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-    TTF_Quit();
-    SDL_Quit();
 }
 
