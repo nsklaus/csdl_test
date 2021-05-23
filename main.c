@@ -27,6 +27,8 @@ int main(int argc, char* args[]) {
     break;
   }
 
+  SDL_FreeSurface(map_img);
+
   TTF_CloseFont(font);
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);
