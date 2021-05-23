@@ -20,5 +20,6 @@ int main(int argc, char* args[]) {
     SDL_Delay(20); // 50 fps
     break;
   }
+  quitGame();
 }
 

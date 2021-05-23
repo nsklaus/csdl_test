@@ -30,7 +30,6 @@ void createFont(){
 int getEvents(){
     while (SDL_PollEvent(&event)) {
         if (event.type == SDL_QUIT) {
-            quitGame();
             return 1;
         }
         switch( event.type ){
