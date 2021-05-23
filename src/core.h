@@ -5,6 +5,9 @@
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
 
+#define SCREEN_WIDTH 640
+#define SCREEN_HEIGHT 480
+
 extern SDL_Window *window;
 extern SDL_Surface *screenSurface;
 extern SDL_Renderer *renderer;
