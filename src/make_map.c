@@ -38,5 +38,7 @@ SDL_Surface *process_map(struct mymap *map){
         if(SDL_BlitSurface(image, &srcrect, map_img, &dstrect))
 		    fprintf(stderr, "%s\n", SDL_GetError());
     }
+
+    SDL_FreeSurface(image);
     return map_img;
 }
