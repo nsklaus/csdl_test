@@ -9,8 +9,8 @@ extern SDL_Window *window;
 extern SDL_Surface *screenSurface;
 extern SDL_Renderer *renderer;
 extern SDL_Event event;
-int map_x;
-int map_y;
+//int map_x;
+//int map_y;
 
 void createWindow();
 void createRenderer();
@@ -22,3 +22,4 @@ void render(SDL_Texture * texture, SDL_Rect *srcrect, const SDL_Rect *dstrect);
 SDL_Texture *render_font(SDL_Rect *srcrect);
 void quitGame();
 #endif
+

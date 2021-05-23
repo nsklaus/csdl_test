@@ -8,7 +8,7 @@ int main(int argc, char* args[]) {
   TTF_Init();
   createWindow();
   createRenderer();
-  createFont();
+//  createFont();
   struct mymap * map = loadmap("assets/level01.tmx");
   SDL_Surface * map_img = process_map(map);
   SDL_Texture * texture = SDL_CreateTextureFromSurface(renderer, map_img);
@@ -18,5 +18,7 @@ int main(int argc, char* args[]) {
     SDL_Rect dstrect = {0,0,640,480};
     render(texture, &srcrect, &dstrect);
     SDL_Delay(20); // 50 fps
+    break;
   }
 }
+

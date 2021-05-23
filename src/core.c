@@ -7,11 +7,14 @@ SDL_Window *window = NULL;
 SDL_Renderer *renderer = NULL;
 SDL_Event event;
 TTF_Font* font;
-int texW, texH = 0; 
+int texW, texH = 0;
 //SDL_Surface * image;
+int map_x;
+int map_y;
 
 
-void createWindow(){ 
+
+void createWindow(){
     window = SDL_CreateWindow( "hello_sdl2",
 	SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 	SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
@@ -23,7 +26,7 @@ void createRenderer(){
 }
 
 void createFont(){
-    font = TTF_OpenFont("/Library/Fonts/Arial Unicode.ttf", 24);
+    font = TTF_OpenFont("assets/roboto.ttf", 24);
     if(!font){printf("Unable to open font");exit(1);}
 }
 
@@ -76,13 +79,13 @@ void render(SDL_Texture * texture, SDL_Rect *srcrect, const SDL_Rect *dstrect){
 
     srcrect->x = map_x;
     srcrect->y = map_y;
-    
+
     SDL_RenderCopy(renderer, texture, srcrect, dstrect);
 
-    
-    SDL_QueryTexture(render_font(srcrect), NULL, NULL, &texW, &texH);
-    SDL_Rect dstrectX = { 0, 0, texW, texH };
-    SDL_RenderCopy(renderer, render_font(srcrect), NULL, &dstrectX);
+
+//    SDL_QueryTexture(render_font(srcrect), NULL, NULL, &texW, &texH);
+//    SDL_Rect dstrectX = { 0, 0, texW, texH };
+//    SDL_RenderCopy(renderer, render_font(srcrect), NULL, &dstrectX);
 
     SDL_RenderPresent( renderer );
 }
@@ -113,3 +116,4 @@ void quitGame() {
     TTF_Quit();
     SDL_Quit();
 }
+
