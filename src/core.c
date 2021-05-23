@@ -10,10 +10,6 @@ int map_x;
 int map_y;
 
 
-void createRenderer(){
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-}
-
 int getEvents(){
     while (SDL_PollEvent(&event)) {
         if (event.type == SDL_QUIT) {

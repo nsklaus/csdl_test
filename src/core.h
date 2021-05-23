@@ -16,7 +16,6 @@ extern TTF_Font *font;
 //int map_x;
 //int map_y;
 
-void createRenderer();
 void createFont();
 SDL_Renderer *GetRenderer();
 int getEvents();
