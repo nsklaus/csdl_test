@@ -42,3 +42,4 @@ SDL_Surface *process_map(struct mymap *map){
     SDL_FreeSurface(image);
     return map_img;
 }
+

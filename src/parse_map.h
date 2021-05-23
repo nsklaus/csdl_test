@@ -15,5 +15,6 @@ struct  mymap{
 
 //void loadmap();
 struct mymap* loadmap(char* filename);
+void free_map(struct mymap *m);
 
 #endif

@@ -81,3 +81,10 @@ struct mymap* loadmap(char* filename){
 
     return map;
 }
+
+void free_map(struct mymap *m) {
+	int i;
+	for(i=0; i<3; ++i)
+		free(m->layer_data[i]);
+	free(m);
+}

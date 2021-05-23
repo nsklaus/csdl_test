@@ -28,6 +28,7 @@ int main(int argc, char* args[]) {
   }
 
   SDL_FreeSurface(map_img);
+  free_map(map);
 
   TTF_CloseFont(font);
   SDL_DestroyRenderer(renderer);
