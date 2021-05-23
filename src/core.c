@@ -1,21 +1,30 @@
 #include "core.h"
 
-#define SCREEN_WIDTH 320
-#define SCREEN_HEIGHT 240
+#define SCREEN_WIDTH 640
+#define SCREEN_HEIGHT 480
 
 SDL_Window *window = NULL;
 SDL_Renderer *renderer = NULL;
 SDL_Event event;
+TTF_Font* font;
+int texW, texH = 0; 
 //SDL_Surface * image;
+
 
 void createWindow(){ 
     window = SDL_CreateWindow( "hello_sdl2",
 	SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
 	SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
+
 }
 
 void createRenderer(){
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+}
+
+void createFont(){
+    font = TTF_OpenFont("/Library/Fonts/Arial Unicode.ttf", 24);
+    if(!font){printf("Unable to open font");exit(1);}
 }
 
 int getEvents(){
@@ -61,16 +70,16 @@ void render(SDL_Texture * texture, SDL_Rect *srcrect, const SDL_Rect *dstrect){
 
     //limit map offset
     if (map_x < 0) map_x = 0;
-    if (map_x > 960) map_x = 960;
+    if (map_x > 640) map_x = 640; //960;
     if (map_y < 0) map_y = 0;
-    if (map_y > 400) map_y = 400;
+    if (map_y > 160) map_y = 160; //400;
 
     srcrect->x = map_x;
     srcrect->y = map_y;
     
     SDL_RenderCopy(renderer, texture, srcrect, dstrect);
 
-    int texW, texH = 0; 
+    
     SDL_QueryTexture(render_font(srcrect), NULL, NULL, &texW, &texH);
     SDL_Rect dstrectX = { 0, 0, texW, texH };
     SDL_RenderCopy(renderer, render_font(srcrect), NULL, &dstrectX);
@@ -80,8 +89,7 @@ void render(SDL_Texture * texture, SDL_Rect *srcrect, const SDL_Rect *dstrect){
 
 SDL_Texture *render_font(SDL_Rect *srcrect){
     SDL_Color color = { 255, 255, 255 };
-    TTF_Font* font = TTF_OpenFont("/Library/Fonts/Arial Unicode.ttf", 24);
-    if(!font){printf("Unable to open font");exit(1);}
+
 
     //map offset XY value
     int x = srcrect->x;
@@ -102,5 +110,6 @@ SDL_Texture *render_font(SDL_Rect *srcrect){
 void quitGame() {
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
+    TTF_Quit();
     SDL_Quit();
 }

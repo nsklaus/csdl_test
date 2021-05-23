@@ -14,7 +14,8 @@ int map_y;
 
 void createWindow();
 void createRenderer();
-SDL_Renderer *SDL_GetRenderer();
+void createFont();
+SDL_Renderer *GetRenderer();
 int getEvents();
 void update();
 void render(SDL_Texture * texture, SDL_Rect *srcrect, const SDL_Rect *dstrect);
