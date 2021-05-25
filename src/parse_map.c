@@ -5,12 +5,12 @@
 #include "parse_map.h"
 
 
-char* concat_2_strings(char* str1, char *str2) { 
-    char* new = malloc(strlen(str1) + strlen(str2) + 1);
-    strcpy(new, str1); 
-    strcat(new, str2); 
-    return new; 
-}
+// char* concat_2_strings(char* str1, char *str2) { 
+//     char* new = malloc(strlen(str1) + strlen(str2) + 1);
+//     strcpy(new, str1); 
+//     strcat(new, str2); 
+//     return new; 
+// }
 //bleh = concat_2_strings(bleh, line);
 
 static void print_element_names(xmlNode * a_node, struct mymap *map)
@@ -30,22 +30,29 @@ static void print_element_names(xmlNode * a_node, struct mymap *map)
 
         char *map_info = "map"; //get map dimension
         if ( strcmp(name,map_info) == 0){
-            map->map_width = atoi((char *)xmlGetProp(cur_node, (const xmlChar *)"width")); // get width
-            map->map_height = atoi((char *)xmlGetProp(cur_node, (const xmlChar *)"height")); // get height
+            xmlChar *mw = xmlGetProp(cur_node, (const xmlChar *)"width");
+            xmlChar *mh = xmlGetProp(cur_node, (const xmlChar *)"height");
+            map->map_width = atoi((char*)mw);
+            map->map_height = atoi((char*)mh);
+            //map->map_width = atoi((char *)xmlGetProp(cur_node, (const xmlChar *)"width")); // get width
+            //map->map_height = atoi((char *)xmlGetProp(cur_node, (const xmlChar *)"height")); // get height
+            xmlFree(mw);
+            xmlFree(mh);
         }
 
         char *layer = "layer"; // get layer id
         if ( strcmp(name,layer) == 0){
-            map->layer_id = atoi((char *)xmlGetProp(cur_node, (const xmlChar *)"id")) -1 ;
-            printf("layer id : %d\n\n", map->layer_id); //debug
+            xmlChar *li = xmlGetProp(cur_node, (const xmlChar *)"id");
+            map->layer_id = atoi((char*)li) -1;
+            //map->layer_id = atoi((char *)xmlGetProp(cur_node, (const xmlChar *)"id")) -1 ;
+            //printf("layer id : %d\n\n", map->layer_id); //debug
+            xmlFree(li);
         }
 
         char* data = "data"; // get layer data
         if ( strcmp(name,data) == 0 ){
             map->layer_length = map->map_width * map->map_height;
             map->layer_data[map->layer_id] = malloc(map->layer_length * sizeof(int)); 
-            // printf(" --name = %s, \n\n", cur_node->name);
-            // printf(" content = %s \n", cur_node->children->content) // commented out to reduce output on term
             char *string = (char *)cur_node->children->content; 
             char *pt = string;
             int counter = 0;
@@ -71,14 +78,9 @@ struct mymap* loadmap(char* filename){
     doc = xmlReadFile(file2, NULL, 0);
     root_element = xmlDocGetRootElement(doc);
     print_element_names(root_element, map);
+
     xmlFreeDoc(doc);
     xmlCleanupParser();
-
-    // printf("\n"); //debug
-    // for (int i = 320; i < 350; i++) {
-    //     printf("map value layer[1][i] = %d\n", map->layer_data[1][i]);  
-    // }
-
     return map;
 }
 
