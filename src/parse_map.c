@@ -52,6 +52,7 @@ static void print_element_names(xmlNode * a_node, struct mymap *map)
         char* data = "data"; // get layer data
         if ( strcmp(name,data) == 0 ){
             map->layer_length = map->map_width * map->map_height;
+            //printf("HIT!\n");
             map->layer_data[map->layer_id] = malloc(map->layer_length * sizeof(int)); 
             char *string = (char *)cur_node->children->content; 
             char *pt = string;
