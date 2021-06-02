@@ -1,6 +1,10 @@
 #include "src/core.h"
 #include "src/parse_map.h"
 #include "src/make_map.h"
+#include <stdio.h>
+#include <unistd.h>
+
+char *getcwd(char *buf, size_t size);
 
 int main(int argc, char* args[]) {
   
@@ -24,8 +28,6 @@ int main(int argc, char* args[]) {
     SDL_Rect dstrect = {0,0,SCREEN_WIDTH,SCREEN_HEIGHT};
     render(texture, &srcrect, &dstrect);
     SDL_Delay(20); // 50 fps
-
-    //break;
   }
 
   SDL_FreeSurface(map_img);

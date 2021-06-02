@@ -4,15 +4,6 @@
 #include <libxml/parser.h>
 #include "parse_map.h"
 
-
-// char* concat_2_strings(char* str1, char *str2) { 
-//     char* new = malloc(strlen(str1) + strlen(str2) + 1);
-//     strcpy(new, str1); 
-//     strcat(new, str2); 
-//     return new; 
-// }
-//bleh = concat_2_strings(bleh, line);
-
 static void print_element_names(xmlNode * a_node, struct mymap *map)
 {
     xmlNode *cur_node = NULL;
@@ -33,9 +24,7 @@ static void print_element_names(xmlNode * a_node, struct mymap *map)
             xmlChar *mw = xmlGetProp(cur_node, (const xmlChar *)"width");
             xmlChar *mh = xmlGetProp(cur_node, (const xmlChar *)"height");
             map->map_width = atoi((char*)mw);
-            map->map_height = atoi((char*)mh);
-            //map->map_width = atoi((char *)xmlGetProp(cur_node, (const xmlChar *)"width")); // get width
-            //map->map_height = atoi((char *)xmlGetProp(cur_node, (const xmlChar *)"height")); // get height
+            map->map_height = atoi((char*)mh); 
             xmlFree(mw);
             xmlFree(mh);
         }
@@ -43,16 +32,13 @@ static void print_element_names(xmlNode * a_node, struct mymap *map)
         char *layer = "layer"; // get layer id
         if ( strcmp(name,layer) == 0){
             xmlChar *li = xmlGetProp(cur_node, (const xmlChar *)"id");
-            map->layer_id = atoi((char*)li) -1;
-            //map->layer_id = atoi((char *)xmlGetProp(cur_node, (const xmlChar *)"id")) -1 ;
-            //printf("layer id : %d\n\n", map->layer_id); //debug
+            map->layer_id = atoi((char*)li) -1; 
             xmlFree(li);
         }
 
         char* data = "data"; // get layer data
         if ( strcmp(name,data) == 0 ){
-            map->layer_length = map->map_width * map->map_height;
-            //printf("HIT!\n");
+            map->layer_length = map->map_width * map->map_height; 
             map->layer_data[map->layer_id] = malloc(map->layer_length * sizeof(int)); 
             char *string = (char *)cur_node->children->content; 
             char *pt = string;
