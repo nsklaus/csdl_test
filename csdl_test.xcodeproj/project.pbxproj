@@ -88,6 +88,7 @@
 			isa = PBXGroup;
 			children = (
 				409F439829CDD7B60030525C /* main.h */,
+				409F43A929CDDC2F0030525C /* main.c */,
 				409F439A29CDD8180030525C /* game.h */,
 				409F439B29CDD8180030525C /* game.c */,
 				409F439C29CDD8740030525C /* graphics.h */,
@@ -96,10 +97,9 @@
 				409F439F29CDD8BD0030525C /* input.c */,
 				409F43A029CDD9060030525C /* object.h */,
 				409F43A129CDD9060030525C /* object.c */,
-				409F43A929CDDC2F0030525C /* main.c */,
-				409F43BB29CE47BF0030525C /* cute_tiled.h */,
 				402F8AB829CF93AD00D19986 /* makemap.h */,
 				402F8AB929CF93AD00D19986 /* makemap.c */,
+				409F43BB29CE47BF0030525C /* cute_tiled.h */,
 			);
 			path = src;
 			sourceTree = "<group>";

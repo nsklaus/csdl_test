@@ -16,6 +16,7 @@
 #include "graphics.h"
 
 
+void load_map(const char* path);
 
 typedef struct {
     SDL_Window* window;
@@ -23,10 +24,14 @@ typedef struct {
     bool is_running;
 } Game;
 
-Game* game_create(void);
-//SDL_Texture* load_map(const char* path);
-void game_run(Game* game);
-void game_destroy(Game* game);
+
+void game_create(void);
+
+Game* get_game(void);
+//SDL_Texture*
+
+void game_run(void);
+void game_destroy(void);
 
 #endif // GAME_H
 

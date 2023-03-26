@@ -22,7 +22,7 @@ struct  mymap{
     int tileset_firstgid;
     int counter;
 } ;
-struct mymap* loadmap(char* filename);
+//struct mymap* load_map(char* filename);
 void free_map(struct mymap *m);
 SDL_Surface *process_map(struct mymap *map);
 

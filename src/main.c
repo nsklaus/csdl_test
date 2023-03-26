@@ -9,11 +9,11 @@
 #include "game.h"
 //#include "main.h"
 
-
 int main(int argc, char* argv[]) {
-    Game* game = game_create();
-    game_run(game);
-    game_destroy(game);
-    return 0;
+  game_create();
+  game_run();
+  game_destroy();
+  return 0;
 }
+
 
