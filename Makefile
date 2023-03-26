@@ -3,8 +3,8 @@ CFLAGS := -Wall -Wextra -std=c99 -g -I/opt/homebrew/include/SDL2
 LDFLAGS := -L/opt/homebrew/lib -lSDL2 -lSDL2_image
 
 SRCDIR := src
-OBJDIR := obj
-BINDIR := bin
+OBJDIR := src
+BINDIR := $(shell cd /Users/klaus/Sources/csdl_test && pwd)
 
 SOURCES := $(wildcard $(SRCDIR)/*.c)
 OBJECTS := $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(SOURCES))
