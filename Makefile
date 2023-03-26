@@ -1,20 +1,24 @@
-LIBS = -lSDL2 -lSDL2_image -lSDL2_ttf -lxml2 
-PROG = myapp
-#OBJS = main.o src/core.o src/parse_map.o src/make_map.o
-SRCS = main.c $(sort $(wildcard src/*.c))
-OBJS = $(SRCS:.c=.o)
+CC := gcc
+CFLAGS := -Wall -Wextra -std=c99 -g -I/opt/homebrew/include/SDL2
+LDFLAGS := -L/opt/homebrew/lib -lSDL2 -lSDL2_image
 
--include config.mak
+SRCDIR := src
+OBJDIR := obj
+BINDIR := bin
 
-CFLAGS += -I/opt/local/include -Ilibxml2  -g  
-LDFLAGS += -L/opt/local/lib 
+SOURCES := $(wildcard $(SRCDIR)/*.c)
+OBJECTS := $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(SOURCES))
+EXECUTABLE := $(BINDIR)/game
 
-src/parse_map.o: CPPFLAGS += $(shell pkg-config --cflags libxml-2.0 )
+all: $(EXECUTABLE)
 
-all: $(PROG)
-$(PROG): $(OBJS)
-	$(CC) -o $(PROG) $(OBJS) $(LDFLAGS) $(LIBS)
+$(EXECUTABLE): $(OBJECTS)
+	$(CC) $(LDFLAGS) $^ -o $@
+
+$(OBJDIR)/%.o: $(SRCDIR)/%.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
 clean:
-	rm -f $(OBJS) $(PROG)
+	rm -f $(OBJECTS) $(EXECUTABLE)
 
 .PHONY: all clean

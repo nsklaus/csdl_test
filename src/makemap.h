@@ -1,5 +1,15 @@
-#ifndef PARSEMAP_H_INCLUDED
-#define PARSEMAP_H_INCLUDED
+//
+//  makemap.h
+//  mygame
+//
+//  Created by klaus on 25/03/2023.
+//
+
+#ifndef makemap_h
+#define makemap_h
+
+#include "game.h"
+#include <stdio.h>
 
 struct  mymap{
     int map_width;
@@ -12,9 +22,8 @@ struct  mymap{
     int tileset_firstgid;
     int counter;
 } ;
-
-//void loadmap();
 struct mymap* loadmap(char* filename);
 void free_map(struct mymap *m);
+SDL_Surface *process_map(struct mymap *map);
 
-#endif
+#endif /* makemap_h */
