@@ -1,9 +1,3 @@
-//
-//  game.h
-//  mygame
-//
-//  Created by klaus on 24/03/2023.
-//
 
 #ifndef GAME_H
 #define GAME_H

@@ -1,11 +1,5 @@
-//
-//  main.c
-//  mygame
-//
-//  Created by klaus on 24/03/2023.
-//
 
-#include <stdio.h>
+//#include <stdio.h>
 #include "game.h"
 //#include "main.h"
 

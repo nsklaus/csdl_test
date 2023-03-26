@@ -1,9 +1,3 @@
-//
-//  graphics.h
-//  mygame
-//
-//  Created by klaus on 24/03/2023.
-//
 
 #ifndef GRAPHICS_H
 #define GRAPHICS_H

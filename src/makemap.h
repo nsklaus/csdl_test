@@ -1,9 +1,3 @@
-//
-//  makemap.h
-//  mygame
-//
-//  Created by klaus on 25/03/2023.
-//
 
 #ifndef makemap_h
 #define makemap_h

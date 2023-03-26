@@ -1,9 +1,3 @@
-//
-//  input.h
-//  mygame
-//
-//  Created by klaus on 24/03/2023.
-//
 
 #ifndef INPUT_H
 #define INPUT_H

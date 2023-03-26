@@ -1,9 +1,3 @@
-//
-//  input.c
-//  mygame
-//
-//  Created by klaus on 24/03/2023.
-//
 
 #include "input.h"
 

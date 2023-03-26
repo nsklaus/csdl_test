@@ -1,10 +1,3 @@
-//
-//  object.h
-//  mygame
-//
-//  Created by klaus on 24/03/2023.
-//
-
 
 #ifndef OBJECT_H
 #define OBJECT_H

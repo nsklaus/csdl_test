@@ -18,6 +18,7 @@ void game_create()
   if (getcwd(cwd, sizeof(cwd)) != NULL) {
     printf("Current working directory: %s\n", cwd);
   }
+
   // load initial map
   load_map("./Assets/level01.json");
   game.is_running = true;

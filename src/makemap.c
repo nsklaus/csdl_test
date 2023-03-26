@@ -1,9 +1,3 @@
-//
-//  makemap.c
-//  mygame
-//
-//  Created by klaus on 25/03/2023.
-//
 
 #include "makemap.h"
 #define CUTE_TILED_IMPLEMENTATION

@@ -1,9 +1,3 @@
-//
-//  graphics.c
-//  mygame
-//
-//  Created by klaus on 24/03/2023.
-//
 
 #include "graphics.h"
 
