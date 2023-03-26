@@ -4,6 +4,8 @@
 #include "input.h"
 #define CUTE_TILED_H_IMPLEMENTATION
 #include "cute_tiled.h"
+#include <stdio.h>
+#include <unistd.h>
 
 static Game game;
 
@@ -12,9 +14,12 @@ void game_create()
   SDL_Init(SDL_INIT_VIDEO);
   game.window = SDL_CreateWindow("My Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_SHOWN);
   game.renderer = SDL_CreateRenderer(game.window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-
+  char cwd[1024];
+  if (getcwd(cwd, sizeof(cwd)) != NULL) {
+    printf("Current working directory: %s\n", cwd);
+  }
   // load initial map
-  load_map("/Users/klaus/Sources/csdl_test/Assets/level01.json");
+  load_map("./Assets/level01.json");
   game.is_running = true;
   fprintf(stderr, "game is running\n" );
 }

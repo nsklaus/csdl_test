@@ -4,7 +4,7 @@ LDFLAGS := -L/opt/homebrew/lib -lSDL2 -lSDL2_image
 
 SRCDIR := src
 OBJDIR := src
-BINDIR := $(shell cd /Users/klaus/Sources/csdl_test && pwd)
+BINDIR := $(shell pwd)
 
 SOURCES := $(wildcard $(SRCDIR)/*.c)
 OBJECTS := $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(SOURCES))
