@@ -6,6 +6,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include "cute_tiled.h"
+#include "game.h"
 
 
 struct  mymap{
@@ -20,8 +21,10 @@ struct  mymap{
     int counter;
 } ;
 
+//struct Game; 
+
 void free_map(struct mymap *m);
-void process_map(SDL_Renderer* renderer, cute_tiled_map_t* mymap);
-SDL_Texture* createLargeTexture(SDL_Renderer* renderer);
+//void process_map(SDL_Renderer* renderer, const char* path);
+SDL_Texture* createLargeTexture( Game* game, const char* path);
 
 #endif /* makemap_h */
