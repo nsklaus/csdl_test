@@ -4,7 +4,4 @@
 
 //#include <stdio.h>
 
-
-
-
 #endif /* main_h */

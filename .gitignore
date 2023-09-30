@@ -2,3 +2,5 @@
 myapp
 game
 *.o
+src--/**
+csdl_test.xcodeproj/**

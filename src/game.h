@@ -6,11 +6,8 @@
 #include <SDL_image.h>
 #include <stdbool.h>
 #include <stdio.h>
-//#include "makemap.h"
+#include "makemap.h"
 #include "graphics.h"
-
-
-void load_map(const char* path);
 
 typedef struct {
     SDL_Window* window;
@@ -18,11 +15,13 @@ typedef struct {
     bool is_running;
 } Game;
 
-
+void load_map(const char* path);
 void game_create(void);
 
 Game* get_game(void);
 //SDL_Texture*
+SDL_Texture* texture;
+SDL_Texture* largeTexture;
 
 void game_run(void);
 void game_destroy(void);

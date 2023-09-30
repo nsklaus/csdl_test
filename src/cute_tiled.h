@@ -1,84 +1,34 @@
-/*
-    ------------------------------------------------------------------------------
-        Licensing information can be found at the end of the file.
-    ------------------------------------------------------------------------------
-    cute_tiled.h - v1.06
-    To create implementation (the function definitions)
-        #define CUTE_TILED_IMPLEMENTATION
-    in *one* C/CPP file (translation unit) that includes this file
-    SUMMARY
-        Parses Tiled (http://www.mapeditor.org/) files saved as the JSON file
-        format. See http://doc.mapeditor.org/en/latest/reference/json-map-format/
-        for a complete description of the JSON Tiled format. An entire map file
-        is loaded up in entirety and used to fill in a set of structs. The entire
-        struct collection is then handed to the user.
-        This header is up to date with Tiled's documentation Revision 40049fd5 and
-        verified to work with Tiled stable version 1.4.1.
-        http://doc.mapeditor.org/en/latest/reference/json-map-format/
-        Here is a past discussion thread on this header:
-        https://www.reddit.com/r/gamedev/comments/87680n/cute_tiled_tiled_json_map_parserloader_in_c/
-    Revision history:
-        1.00 (03/24/2018) initial release
-        1.01 (05/04/2018) tile descriptors in tilesets for collision geometry
-        1.02 (05/07/2018) reverse lists for ease of use, incorporate fixes by ZenToad
-        1.03 (01/11/2019) support for Tiled 1.2.1 with the help of dpeter99 and tanis2000
-        1.04 (04/30/2020) support for Tiled 1.3.3 with the help of aganm
-        1.05 (07/19/2020) support for Tiled 1.4.1 and tileset tile animations
-        1.06 (04/05/2021) support for Tiled 1.5.0 parallax
-        1.07 (03/01/2022) support for c89
-*/
 
 /*
-    Contributors:
-        ZenToad           1.02 - Bug reports and goto statement errors for g++
-        dpeter99          1.03 - Help with updating to Tiled 1.2.1 JSON format
-        tanis2000         1.03 - Help with updating to Tiled 1.2.1 JSON format
-        aganm             1.04 - Help with updating to Tiled 1.3.3 JSON format
-        mupf              1.07 - Adding support for C89
-*/
+  DOCUMENTATION
 
-/*
-    DOCUMENTATION
-        Load up a Tiled json exported file, either from disk or memory, like so:
-            cute_tiled_map_t* map = cute_tiled_load_map_from_memory(memory, size, 0);
-        Then simply access the map's fields like so:
-            // get map width and height
-            int w = map->width;
-            int h = map->height;
-            // loop over the map's layers
-            cute_tiled_layer_t* layer = map->layers;
-            while (layer)
-            {
-                int* data = layer->data;
-                int data_count = layer->data_count;
-                // do something with the tile data
-                UserFunction_HandleTiles(data, data_count);
-                layer = layer->next;
-            }
-        Finally, free it like so:
-            cute_tiled_free_map(map);
-    LIMITATIONS
-        More uncommon fields are not supported, and are annotated in this header.
-        Search for "Not currently supported." without quotes to find them. cute_tiled
-        logs a warning whenever a known unsupported field is encountered, and will
-        attempt to gracefully skip the field. If a field with completely unknown
-        syntax is encountered (which can happen if cute_tiled is used on a newer
-        and unsupported version of Tiled), undefined behavior may occur (crashes).
-        If you would like a certain feature to be supported simply open an issue on
-        GitHub and provide a JSON exported map with the unsupported features. Changing
-        the parser to support new fields and objects is quite easy, as long as a map
-        file is provided for debugging and testing!
-        GitHub : https://github.com/RandyGaul/cute_headers/
-        Compression of the tile GIDs is *not* supported in this header. Exporting
-        a map from Tiled will create a JSON file. This JSON file itself can very
-        trivially be compressed in its entirety, thus making Tiled's internal
-        compression exporting not a useful feature for this header to support.
-        Simply wrap calls to `cute_tiled_load_map_from_file` in a decompression
-        routine. Here is an example (assuming `zlib_uncompress` is already imp-
-        lemented somewhere in the user's codebase):
-            int size;
-            void* uncompressed_data = zlib_uncompress(path_to_zipped_map_file, &size);
-            cute_tiled_map_t* map = cute_tiled_load_map_from_memory(uncompressed_data, size, 0);
+  // Do this ONCE in a .c/.cpp file
+  #define LIBNAME_IMPLEMENTATION
+  #include "libname.h"
+
+  // Everywhere else, just include like a typical header
+  #include "libname.h"
+
+
+  Load up a Tiled json exported file, either from disk or memory, like so:
+    cute_tiled_map_t* map = cute_tiled_load_map_from_memory(memory, size, 0);
+
+  Then simply access the map's fields like so:
+    // get map width and height
+    int w = map->width;
+    int h = map->height;
+    // loop over the map's layers
+    cute_tiled_layer_t* layer = map->layers;
+    while (layer)
+    {
+        int* data = layer->data;
+        int data_count = layer->data_count;
+        // do something with the tile data
+        UserFunction_HandleTiles(data, data_count);
+        layer = layer->next;
+    }
+  Finally, free it like so:
+    cute_tiled_free_map(map);
 */
 
 #if !defined(CUTE_TILED_H)
@@ -2945,42 +2895,3 @@ void cute_tiled_free_external_tileset(cute_tiled_tileset_t* tileset)
 #endif // CUTE_TILED_IMPLEMENTATION_ONCE
 #endif // CUTE_TILED_IMPLEMENTATION
 
-/*
-    ------------------------------------------------------------------------------
-    This software is available under 2 licenses - you may choose the one you like.
-    ------------------------------------------------------------------------------
-    ALTERNATIVE A - zlib license
-    Copyright (c) 2017 Randy Gaul http://www.randygaul.net
-    This software is provided 'as-is', without any express or implied warranty.
-    In no event will the authors be held liable for any damages arising from
-    the use of this software.
-    Permission is granted to anyone to use this software for any purpose,
-    including commercial applications, and to alter it and redistribute it
-    freely, subject to the following restrictions:
-      1. The origin of this software must not be misrepresented; you must not
-         claim that you wrote the original software. If you use this software
-         in a product, an acknowledgment in the product documentation would be
-         appreciated but is not required.
-      2. Altered source versions must be plainly marked as such, and must not
-         be misrepresented as being the original software.
-      3. This notice may not be removed or altered from any source distribution.
-    ------------------------------------------------------------------------------
-    ALTERNATIVE B - Public Domain (www.unlicense.org)
-    This is free and unencumbered software released into the public domain.
-    Anyone is free to copy, modify, publish, use, compile, sell, or distribute this
-    software, either in source code form or as a compiled binary, for any purpose,
-    commercial or non-commercial, and by any means.
-    In jurisdictions that recognize copyright laws, the author or authors of this
-    software dedicate any and all copyright interest in the software to the public
-    domain. We make this dedication for the benefit of the public at large and to
-    the detriment of our heirs and successors. We intend this dedication to be an
-    overt act of relinquishment in perpetuity of all present and future rights to
-    this software under copyright law.
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    AUTHORS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
-    ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-    WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-    ------------------------------------------------------------------------------
-*/

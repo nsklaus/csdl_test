@@ -2,8 +2,11 @@
 #ifndef makemap_h
 #define makemap_h
 
-#include "game.h"
 #include <stdio.h>
+#include <SDL.h>
+#include <SDL_image.h>
+#include "cute_tiled.h"
+
 
 struct  mymap{
     int map_width;
@@ -16,8 +19,9 @@ struct  mymap{
     int tileset_firstgid;
     int counter;
 } ;
-//struct mymap* load_map(char* filename);
+
 void free_map(struct mymap *m);
-SDL_Surface *process_map(struct mymap *map);
+void process_map(SDL_Renderer* renderer, cute_tiled_map_t* mymap);
+SDL_Texture* createLargeTexture(SDL_Renderer* renderer);
 
 #endif /* makemap_h */
