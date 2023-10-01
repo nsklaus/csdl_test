@@ -2,14 +2,13 @@
 #ifndef GAME_H
 #define GAME_H
 
-
-
-
 #include <SDL.h>
 #include <SDL_image.h>
 #include <stdbool.h>
 #include <stdio.h>
 
+// workaround circular includes,
+// define structs first before loading makemap.h
 typedef struct 
 {
     int x, y; // Camera position
@@ -24,6 +23,14 @@ typedef struct
     int height;
 } Map;
 
+typedef struct Input {
+    bool up;
+    bool down;
+    bool left;
+    bool right;
+    bool action;
+} Input;
+
 typedef struct 
 {
     SDL_Window* window;
@@ -31,9 +38,10 @@ typedef struct
     int width;
     int height;
     Map tilemap;
-    Camera camera; 
+    Camera camera;
+    Input input; 
     bool fullscreen;
-    bool is_running;
+    bool quitting;
 } Game;
 
 #include "makemap.h"

@@ -19,27 +19,15 @@ void game_create()
 {
     game.width = 800;
     game.height= 600;
-    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
-        fprintf(stderr, "Error initializing SDL: %s\n", SDL_GetError());
-        return;
-    }
+    SDL_Init(SDL_INIT_VIDEO);
 
-    //game.window = SDL_CreateWindow("My Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 640, 480, SDL_WINDOW_SHOWN);
     game.window = SDL_CreateWindow( "Game Title", 
         SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, game.width, game.height, 
-        SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN);
-
-    if (!game.window) {
-        fprintf(stderr, "Error creating window: %s\n", SDL_GetError());
-        return;
-    }
+        SDL_WINDOW_OPENGL );
 
     game.renderer = SDL_CreateRenderer(game.window, -1, 
-                                       SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    if (!game.renderer) {
-        fprintf(stderr, "Error creating renderer: %s\n", SDL_GetError());
-        return;
-    }
+        SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+
 
     // Print the current working directory (can be removed if not needed)
     char cwd[1024];
@@ -57,78 +45,55 @@ void game_create()
     // Load initial map
     load_map("./Assets/level01.json");
 
-    game.is_running = true;
+    game.quitting = false;
     fprintf(stderr, "game is running\n");
 }
 
-Game* get_game(void) { return &game; }
+/** return game instance **/
+Game* get_game() { return &game; }
 
-// Load the game map and textures
-void load_map(const char* path)
-{
-    largeTexture = createLargeTexture(&game, path);
-}
+/** Load the game map and textures **/
+void load_map(const char* path) { largeTexture = createLargeTexture(&game, path); }
 
-// Render the game elements
+/** Render the game elements **/
 void render_game()
 {
-
     SDL_RenderClear(game.renderer);
-    // SDL_Rect srcRect = {
-    //     game.camera.x, game.camera.y,
-    //     game.width, game.height
-    // };
 
-    // SDL_Rect destRect = {
-    //     0, 0, game.width, game.height
-    // };
-    //     // Adjust srcRect to ensure it does not exceed the large texture's dimensions
-    // if (srcRect.x + srcRect.w > game.tilemap.width * 16) {
-    //     srcRect.w = game.tilemap.width * 16 - srcRect.x;
-    // }
-    // if (srcRect.y + srcRect.h > game.tilemap.height * 16) {
-    //     srcRect.h = game.tilemap.height * 16 - srcRect.y;
-    // }
-    SDL_Rect destRect = {
-        0, 0,
-        game.tilemap.width * 16, game.tilemap.height * 16
-    };
+int srcHeight = game.height;
+if (game.camera.y + srcHeight > game.tilemap.height * 16) {
+    srcHeight = (game.tilemap.height * 16) - game.camera.y;
+    printf("bleh");
+}
+    // camera render rectangle
+    SDL_Rect srcRect = { game.camera.x, game.camera.y, game.width, srcHeight };
 
-
-    SDL_Rect cameraRect = {
-        game.camera.x, game.camera.y,
-        game.width, game.height
-    };
-
-    //SDL_RenderCopy(game.renderer, largeTexture, NULL, &destRect);
-    if (largeTexture) 
+    SDL_Rect destRect = { 0, 0, game.width, game.height };
+    
+    if (game.input.down || game.input.up || game.input.down || game.input.right)
     {
-        SDL_RenderCopy(game.renderer, largeTexture, &cameraRect, &destRect);
+        printf("\n camX[%d], camY[%d], srcRect.w[%d], srcRect.h[%d], mapW[%d], mapH[%d]\n", 
+            game.camera.x, game.camera.y, srcRect.w, srcRect.h, 
+            (game.tilemap.width * 16), (game.tilemap.height * 16));
 
-        //SDL_RenderCopy(game.renderer, largeTexture, &srcRect, &destRect);
-        //SDL_RenderCopy(game.renderer, largeTexture, NULL, NULL);
-        SDL_RenderPresent(game.renderer);
-    } else {
-        fprintf(stderr, "Failed to create large texture.\n");
-    }
-    //printf("Dest Rect X: %d, Y: %d, Width: %d, Height: %d\n", destRect.x, destRect.y, destRect.w, destRect.h);
-//printf("Dest Rect Height: %d\n", destRect.h);
-//printf("Dest Rect Y: %d\n", destRect.y);
-//printf("Source Rect X: %d, Y: %d, Width: %d, Height: %d\n", srcRect.x, srcRect.y, srcRect.w, srcRect.h);
+    }    
+    
 
+    SDL_RenderCopy(game.renderer, largeTexture, &srcRect, &destRect);
+    SDL_RenderPresent(game.renderer);
 }
 
 // game loop, handling input and rendering
 void game_run()
 {
-    Game* game = get_game();
-    while (game->is_running)
+    //Game* game = get_game();
+    while ( ! game.quitting)
     {
         //take the time
         frameStart = SDL_GetTicks();
 
         // Handle input events
-        input_handle_events(game);
+        input_handle_events(&game);
 
         // Render game
         render_game();
@@ -141,10 +106,10 @@ void game_run()
     }
 }
 
-// Clean up resources and close the game
+// Clean up resources and quits. called automatically from main.c
 void game_destroy() 
 {
-    printf("\ngame quits \n");
+    printf("\n game quits \n");
     SDL_DestroyRenderer(game.renderer);
     SDL_DestroyWindow(game.window);
     SDL_Quit();  // Clean up SDL initialization
