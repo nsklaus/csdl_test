@@ -37,17 +37,19 @@ void input_handle_events(Game* game)
                         {
                             game->camera.y -= game->camera.speed;
                         }
-// printf("\n going up. camY[%d], mapH[%d], gameH[%d]\n",game->camera.y, game->tilemap.height * 16, game->height);
 
                         break;
                     case SDLK_DOWN:
                         game->input.down = true;
                         //printf("Down key pressed.\n");
-                        if (game->camera.y < (game->tilemap.height * 16 - game->height))
+                        if (game->camera.y + game->camera.speed < (game->tilemap.height * 16 - game->height))
                         {
                             game->camera.y += game->camera.speed;
+                        } 
+                        else
+                        {
+                            game->camera.y = game->tilemap.height  * 16 - game->height;
                         }
-// printf("\n going down. camY[%d], mapH[%d], gameH[%d]\n",game->camera.y, game->tilemap.height * 16, game->height);
                         break;
                     case SDLK_LEFT:
                         game->input.left = true;
@@ -56,16 +58,18 @@ void input_handle_events(Game* game)
                         {
                             game->camera.x -= game->camera.speed;
                         }
-// printf("\n going right. camX[%d], mapW[%d], gameW[%d]\n",game->camera.x, game->tilemap.width * 16, game->width);
                         break;
                     case SDLK_RIGHT:
                         game->input.right = true;
                         //printf("Right key pressed.\n");
-                        if (game->camera.x < game->tilemap.width * 16 - game->width) 
+                        if (game->camera.x + game->camera.speed < game->tilemap.width * 16 - game->width) 
                         {
                             game->camera.x += game->camera.speed;
                         }
-// printf("\n going right. camX[%d], mapW[%d], gameW[%d]\n",game->camera.x, game->tilemap.width * 16, game->width);
+                        else 
+                        {
+                            game->camera.x = game->tilemap.width  * 16 - game->width;
+                        }
 
                         break;
                     case SDLK_f:  // Added this case to handle fullscreen toggle

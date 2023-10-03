@@ -41,7 +41,7 @@ void game_create()
     game.camera.y = 0;
     game.camera.width = game.width; 
     game.camera.height = game.height; 
-    game.camera.speed = 5; 
+    game.camera.speed = 20; 
 
     // Load initial map
     load_map("./Assets/level01.json");
@@ -60,31 +60,17 @@ void load_map(const char* path) { largeTexture = createLargeTexture(&game, path)
 void render_game()
 {
     SDL_RenderClear(game.renderer);
-
-int srcWidth = game.width;
-int srcHeight = game.height;
-
-if(game.camera.x + srcWidth > game.tilemap.width * 16) {
-    srcWidth = (game.tilemap.width * 16) - game.camera.x;
-    printf("stuff111\n");
-}
-
-if(game.camera.y + srcHeight > game.tilemap.height * 16) {
-    srcHeight = (game.tilemap.height * 16) - game.camera.y;
-    printf("stuff222\n");
-}
     // camera render rectangle
     SDL_Rect srcRect = { game.camera.x, game.camera.y, game.width, game.height };
 
     SDL_Rect destRect = { 0, 0, game.width, game.height };
     
-    if (game.input.down || game.input.up || game.input.down || game.input.right)
+    if (game.input.down || game.input.up || game.input.down || game.input.left || game.input.right )
     {
-// debug
-printf("srcRect: x=%d, y=%d, w=%d, h=%d\n", srcRect.x, srcRect.y, srcRect.w, srcRect.h);
-printf("destRect: x=%d, y=%d, w=%d, h=%d\n", destRect.x, destRect.y, destRect.w, destRect.h);
-    }    
-    
+        // debug
+        printf("srcRect: x=%d, y=%d, w=%d, h=%d\n", srcRect.x, srcRect.y, srcRect.w, srcRect.h);
+        printf("destRect: x=%d, y=%d, w=%d, h=%d\n", destRect.x, destRect.y, destRect.w, destRect.h);
+    }
 
     SDL_RenderCopy(game.renderer, largeTexture, &srcRect, &destRect);
     SDL_RenderPresent(game.renderer);

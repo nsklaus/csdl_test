@@ -1,3 +1,4 @@
+/*
 #include <SDL.h>
 
 void renderPlayer(SDL_Renderer* renderer) {
@@ -20,3 +21,4 @@ void renderPlayer(SDL_Renderer* renderer) {
 
     SDL_RenderCopy(renderer, player->texture, &srcRect, &destRect);
 }
+*/
