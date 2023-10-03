@@ -17,8 +17,8 @@ Game game;
 // Initialize the game, create window and renderer
 void game_create()
 {
-    game.width = 800;
-    game.height= 600;
+    game.width = 384;
+    game.height= 240;
     SDL_Init(SDL_INIT_VIDEO);
 
     game.window = SDL_CreateWindow( "Game Title", 
@@ -28,6 +28,7 @@ void game_create()
     game.renderer = SDL_CreateRenderer(game.window, -1, 
         SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
+    SDL_RenderSetLogicalSize(game.renderer, game.width, game.height);
 
     // Print the current working directory (can be removed if not needed)
     char cwd[1024];
@@ -60,22 +61,28 @@ void render_game()
 {
     SDL_RenderClear(game.renderer);
 
+int srcWidth = game.width;
 int srcHeight = game.height;
-if (game.camera.y + srcHeight > game.tilemap.height * 16) {
+
+if(game.camera.x + srcWidth > game.tilemap.width * 16) {
+    srcWidth = (game.tilemap.width * 16) - game.camera.x;
+    printf("stuff111\n");
+}
+
+if(game.camera.y + srcHeight > game.tilemap.height * 16) {
     srcHeight = (game.tilemap.height * 16) - game.camera.y;
-    printf("bleh");
+    printf("stuff222\n");
 }
     // camera render rectangle
-    SDL_Rect srcRect = { game.camera.x, game.camera.y, game.width, srcHeight };
+    SDL_Rect srcRect = { game.camera.x, game.camera.y, game.width, game.height };
 
     SDL_Rect destRect = { 0, 0, game.width, game.height };
     
     if (game.input.down || game.input.up || game.input.down || game.input.right)
     {
-        printf("\n camX[%d], camY[%d], srcRect.w[%d], srcRect.h[%d], mapW[%d], mapH[%d]\n", 
-            game.camera.x, game.camera.y, srcRect.w, srcRect.h, 
-            (game.tilemap.width * 16), (game.tilemap.height * 16));
-
+// debug
+printf("srcRect: x=%d, y=%d, w=%d, h=%d\n", srcRect.x, srcRect.y, srcRect.w, srcRect.h);
+printf("destRect: x=%d, y=%d, w=%d, h=%d\n", destRect.x, destRect.y, destRect.w, destRect.h);
     }    
     
 
