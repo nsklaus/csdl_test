@@ -12,7 +12,7 @@ int frameTime;
 
 // create  game instance
 Game game;
-
+Player player;
 
 // Initialize the game, create window and renderer
 void game_create()
@@ -43,6 +43,8 @@ void game_create()
     game.camera.height = game.height; 
     game.camera.speed = 20; 
 
+    player_init(game.renderer, player);
+
     // Load initial map
     load_map("./Assets/level01.json");
 
@@ -65,14 +67,16 @@ void render_game()
 
     SDL_Rect destRect = { 0, 0, game.width, game.height };
     
-    if (game.input.down || game.input.up || game.input.down || game.input.left || game.input.right )
-    {
-        // debug
-        printf("srcRect: x=%d, y=%d, w=%d, h=%d\n", srcRect.x, srcRect.y, srcRect.w, srcRect.h);
-        printf("destRect: x=%d, y=%d, w=%d, h=%d\n", destRect.x, destRect.y, destRect.w, destRect.h);
-    }
+    // if (game.input.down || game.input.up || game.input.down || game.input.left || game.input.right )
+    // {
+    //     // debug
+    //     printf("srcRect: x=%d, y=%d, w=%d, h=%d\n", srcRect.x, srcRect.y, srcRect.w, srcRect.h);
+    //     printf("destRect: x=%d, y=%d, w=%d, h=%d\n", destRect.x, destRect.y, destRect.w, destRect.h);
+    // }
 
+    
     SDL_RenderCopy(game.renderer, largeTexture, &srcRect, &destRect);
+    player_render(game.renderer, player);
     SDL_RenderPresent(game.renderer);
 }
 
@@ -87,6 +91,7 @@ void game_run()
 
         // Handle input events
         input_handle_events(&game);
+        player_update(player);
 
         // Render game
         render_game();
@@ -103,6 +108,7 @@ void game_run()
 void game_destroy() 
 {
     printf("\n game quits \n");
+    player_destroy(player);
     SDL_DestroyRenderer(game.renderer);
     SDL_DestroyWindow(game.window);
     SDL_Quit();  // Clean up SDL initialization

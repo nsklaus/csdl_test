@@ -45,7 +45,7 @@ typedef struct
 } Game;
 
 #include "makemap.h"
-#include "graphics.h"
+#include "player.h"
 
 
 void load_map(const char* path);
