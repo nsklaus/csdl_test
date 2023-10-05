@@ -73,6 +73,7 @@ void game_run()
 
         // Handle input events
         input_handle_events(&game);
+        
         player_update(&game, frameTime);
 
         // Render game

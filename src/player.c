@@ -2,7 +2,7 @@
 #include <SDL_image.h>
 
 
-
+static int animationTime = 0; 
 
 Player player_init(Game* game) {
     Player player;
@@ -29,7 +29,8 @@ Player player_init(Game* game) {
 }
 
 void player_update(Game* game, int frameTime) {
-    if (frameTime > 16) {
+    animationTime += frameTime;
+    if (animationTime > 100) {
         game->player.currentFrame++;
         if (game->player.currentFrame >= game->player.frameCount) {
             game->player.currentFrame = 0;
