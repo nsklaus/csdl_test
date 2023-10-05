@@ -8,7 +8,7 @@
 
 
 Player player_init(Game* game);
-void player_update(Game* game);
+void player_update(Game* game, int frameTime);
 void player_render(Game* game);
 void player_change_animation(int frameCount, int yPosition, Game* game);
 void player_destroy(Game* game);

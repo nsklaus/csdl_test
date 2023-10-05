@@ -16,7 +16,7 @@ Player player_init(Game* game) {
     player.destRect.h = 48;
     player.destRect.x = player.x;
     player.destRect.y = player.y;
-    player.frameCount = 1;
+    player.frameCount = 9;
     player.currentFrame = 0;
 
     // Load the player's texture
@@ -28,13 +28,15 @@ Player player_init(Game* game) {
     return player;
 }
 
-void player_update(Game* game) {
-    // player.currentFrame++;
-    // if (player.currentFrame >= player.frameCount) {
-    //     player.currentFrame = 0;
-    // }
-    // player.srcRect.x = player.currentFrame * 48;
-    game->player.currentFrame = 0;
+void player_update(Game* game, int frameTime) {
+    if (frameTime > 16) {
+        game->player.currentFrame++;
+        if (game->player.currentFrame >= game->player.frameCount) {
+            game->player.currentFrame = 0;
+        }
+        game->player.srcRect.x = game->player.currentFrame * 48;
+        //game->player.currentFrame = 0;
+    }
 }
 
 void player_render(Game* game) {
