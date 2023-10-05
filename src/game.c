@@ -58,27 +58,7 @@ Game* get_game() { return &game; }
 /** Load the game map and textures **/
 void load_map(const char* path) { largeTexture = createLargeTexture(&game, path); }
 
-/** Render the game elements **/
-void render_game()
-{
-    SDL_RenderClear(game.renderer);
-    // camera render rectangle
-    SDL_Rect srcRect = { game.camera.x, game.camera.y, game.width, game.height };
 
-    SDL_Rect destRect = { 0, 0, game.width, game.height };
-    
-    // if (game.input.down || game.input.up || game.input.down || game.input.left || game.input.right )
-    // {
-    //     // debug
-    //     printf("srcRect: x=%d, y=%d, w=%d, h=%d\n", srcRect.x, srcRect.y, srcRect.w, srcRect.h);
-    //     printf("destRect: x=%d, y=%d, w=%d, h=%d\n", destRect.x, destRect.y, destRect.w, destRect.h);
-    // }
-
-    
-    SDL_RenderCopy(game.renderer, largeTexture, &srcRect, &destRect);
-    player_render(game.renderer, player);
-    SDL_RenderPresent(game.renderer);
-}
 
 // game loop, handling input and rendering
 void game_run()
@@ -102,6 +82,28 @@ void game_run()
         frameTime = SDL_GetTicks() - frameStart;
         if (frameDelay > frameTime) { SDL_Delay(frameDelay - frameTime); }
     }
+}
+
+/** Render the game elements **/
+void render_game()
+{
+    SDL_RenderClear(game.renderer);
+    // camera render rectangle
+    SDL_Rect srcRect = { game.camera.x, game.camera.y, game.width, game.height };
+
+    SDL_Rect destRect = { 0, 0, game.width, game.height };
+    
+    // if (game.input.down || game.input.up || game.input.down || game.input.left || game.input.right )
+    // {
+    //     // debug
+    //     printf("srcRect: x=%d, y=%d, w=%d, h=%d\n", srcRect.x, srcRect.y, srcRect.w, srcRect.h);
+    //     printf("destRect: x=%d, y=%d, w=%d, h=%d\n", destRect.x, destRect.y, destRect.w, destRect.h);
+    // }
+
+    player_render(game.renderer, player);
+    SDL_RenderCopy(game.renderer, largeTexture, &srcRect, &destRect);
+    
+    SDL_RenderPresent(game.renderer);
 }
 
 // Clean up resources and quits. called automatically from main.c

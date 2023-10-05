@@ -57,6 +57,7 @@ SDL_Texture* texture;
 SDL_Texture* largeTexture;
 
 void game_run(void);
+void render_game();
 void game_destroy(void);
 
 #endif // GAME_H

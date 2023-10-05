@@ -5,8 +5,8 @@
 
 
 void player_init(SDL_Renderer* renderer, Player player) {
-    player.x = 96;
-    player.y = 170;
+    player.x = 48;
+    player.y = 48;
     player.srcRect.w = 48;
     player.srcRect.h = 48;
     player.srcRect.x = 0;
@@ -26,16 +26,18 @@ void player_init(SDL_Renderer* renderer, Player player) {
 }
 
 void player_update(Player player) {
-    player.currentFrame++;
-    if (player.currentFrame >= player.frameCount) {
-        player.currentFrame = 0;
-    }
-    player.srcRect.x = player.currentFrame * 48;
+    // player.currentFrame++;
+    // if (player.currentFrame >= player.frameCount) {
+    //     player.currentFrame = 0;
+    // }
+    // player.srcRect.x = player.currentFrame * 48;
+    player.currentFrame = 0;
 }
 
 void player_render(SDL_Renderer* renderer, Player player) {
     if (player.texture) {
         SDL_RenderCopy(renderer, player.texture, &player.srcRect, &player.destRect);
+        printf("bleh\n");
     }
 }
 
