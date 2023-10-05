@@ -6,6 +6,8 @@
 #include <SDL_image.h>
 #include <stdbool.h>
 #include <stdio.h>
+//#include "player.h"
+
 
 // workaround circular includes,
 // define structs first before loading makemap.h
@@ -31,6 +33,16 @@ typedef struct Input {
     bool action;
 } Input;
 
+typedef struct {
+    int x;
+    int y;
+    SDL_Rect srcRect;
+    SDL_Rect destRect;
+    int frameCount;
+    int currentFrame;
+    SDL_Texture* texture;
+} Player;
+
 typedef struct 
 {
     SDL_Window* window;
@@ -40,12 +52,12 @@ typedef struct
     Map tilemap;
     Camera camera;
     Input input; 
+    Player player;
     bool fullscreen;
     bool quitting;
 } Game;
 
 #include "makemap.h"
-#include "player.h"
 
 
 void load_map(const char* path);

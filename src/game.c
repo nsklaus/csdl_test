@@ -1,8 +1,10 @@
+#include <stdio.h>
+#include <unistd.h>
 #include "cute_tiled.h"
 #include "game.h"
 #include "input.h"
-#include <stdio.h>
-#include <unistd.h>
+#include "player.h"
+
 
 // stuff needed to time gameloop
 const int FPS = 60;  // Set target FPS
@@ -12,7 +14,7 @@ int frameTime;
 
 // create  game instance
 Game game;
-Player player;
+//Player player;
 
 // Initialize the game, create window and renderer
 void game_create()
@@ -43,7 +45,7 @@ void game_create()
     game.camera.height = game.height; 
     game.camera.speed = 20; 
 
-    player_init(game.renderer, player);
+    game.player = player_init(&game);
 
     // Load initial map
     load_map("./Assets/level01.json");
@@ -71,7 +73,7 @@ void game_run()
 
         // Handle input events
         input_handle_events(&game);
-        player_update(player);
+        player_update(&game);
 
         // Render game
         render_game();
@@ -100,7 +102,7 @@ void render_game()
     //     printf("destRect: x=%d, y=%d, w=%d, h=%d\n", destRect.x, destRect.y, destRect.w, destRect.h);
     // }
 
-    player_render(game.renderer, player);
+    player_render(&game);
     SDL_RenderCopy(game.renderer, largeTexture, &srcRect, &destRect);
     
     SDL_RenderPresent(game.renderer);
@@ -110,7 +112,7 @@ void render_game()
 void game_destroy() 
 {
     printf("\n game quits \n");
-    player_destroy(player);
+    player_destroy(&game);
     SDL_DestroyRenderer(game.renderer);
     SDL_DestroyWindow(game.window);
     SDL_Quit();  // Clean up SDL initialization
