@@ -73,11 +73,13 @@ void game_run()
 
         // Handle input events
         input_handle_events(&game);
-        
+
         player_update(&game, frameTime);
 
         // Render game
         render_game();
+
+
 
         // calculate how long it took since we started timer.
         // if frameDelay is bigger than frameTime wait a bit
@@ -103,8 +105,9 @@ void render_game()
     //     printf("destRect: x=%d, y=%d, w=%d, h=%d\n", destRect.x, destRect.y, destRect.w, destRect.h);
     // }
 
-    player_render(&game);
+    
     SDL_RenderCopy(game.renderer, largeTexture, &srcRect, &destRect);
+    player_render(&game);
     
     SDL_RenderPresent(game.renderer);
 }

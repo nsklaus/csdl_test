@@ -30,13 +30,14 @@ Player player_init(Game* game) {
 
 void player_update(Game* game, int frameTime) {
     animationTime += frameTime;
-    if (animationTime > 100) {
+    if (animationTime > 1) {
         game->player.currentFrame++;
         if (game->player.currentFrame >= game->player.frameCount) {
             game->player.currentFrame = 0;
         }
         game->player.srcRect.x = game->player.currentFrame * 48;
         //game->player.currentFrame = 0;
+        animationTime = 0; 
     }
 }
 
@@ -69,7 +70,7 @@ void player_render(Game* game) {
 
     // Ensure SDL_RenderPresent is called after rendering the player
     // This can be removed if SDL_RenderPresent is called elsewhere after rendering the player
-    SDL_RenderPresent(game->renderer);
+    //SDL_RenderPresent(game->renderer);
 }
 
 void player_change_animation(int frameCount, int yPosition, Game* game) {
