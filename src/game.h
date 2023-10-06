@@ -39,7 +39,7 @@ typedef struct {
     SDL_Rect srcRect;
     SDL_Rect destRect;
     int frameCount;
-    int currentFrame;
+    float currentFrame;
     SDL_Texture* texture;
 } Player;
 

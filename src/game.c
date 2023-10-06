@@ -6,15 +6,11 @@
 #include "player.h"
 
 
-// stuff needed to time gameloop
-const int FPS = 60;  // Set target FPS
-const int frameDelay = 1000 / FPS;
-Uint32 frameStart;
-int frameTime;
+// time control
+Uint32 lastTime = 0;
 
 // create  game instance
 Game game;
-//Player player;
 
 // Initialize the game, create window and renderer
 void game_create()
@@ -30,6 +26,7 @@ void game_create()
     game.renderer = SDL_CreateRenderer(game.window, -1, 
         SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
+    // make small resolution to adapt an fill fullscreen
     SDL_RenderSetLogicalSize(game.renderer, game.width, game.height);
 
     // Print the current working directory (can be removed if not needed)
@@ -54,10 +51,10 @@ void game_create()
     fprintf(stderr, "game is running\n");
 }
 
-/** return game instance **/
+// return game instance 
 Game* get_game() { return &game; }
 
-/** Load the game map and textures **/
+// Load the game map and textures
 void load_map(const char* path) { largeTexture = createLargeTexture(&game, path); }
 
 
@@ -65,27 +62,32 @@ void load_map(const char* path) { largeTexture = createLargeTexture(&game, path)
 // game loop, handling input and rendering
 void game_run()
 {
+    Uint32 lastTime = SDL_GetTicks();  // Initialize lastTime
+    float frameTime = 0.0f;
+
     //Game* game = get_game();
     while ( ! game.quitting)
     {
-        //take the time
-        frameStart = SDL_GetTicks();
+        // Calculate Delta Time
+        Uint32 currentTime = SDL_GetTicks();
+        float deltaTime = (currentTime - lastTime) / 1000.0f; // in seconds
+        lastTime = currentTime;
+        frameTime += deltaTime;
 
         // Handle input events
         input_handle_events(&game);
 
-        player_update(&game, frameTime);
+        player_update(&game, deltaTime);
 
         // Render game
         render_game();
 
-
-
-        // calculate how long it took since we started timer.
-        // if frameDelay is bigger than frameTime wait a bit
-        // to reach desired target FPS.
-        frameTime = SDL_GetTicks() - frameStart;
-        if (frameDelay > frameTime) { SDL_Delay(frameDelay - frameTime); }
+        // Frame rate control using deltaTime
+        if (frameTime < (1.0f / 60.0f))  // 60 FPS 
+        {
+            SDL_Delay((Uint32)((1.0f / 60.0f - frameTime) * 1000));
+        }
+        frameTime = 0.0f;  // Reset frameTime for the next iteration
     }
 }
 
@@ -93,19 +95,11 @@ void game_run()
 void render_game()
 {
     SDL_RenderClear(game.renderer);
+
     // camera render rectangle
     SDL_Rect srcRect = { game.camera.x, game.camera.y, game.width, game.height };
-
     SDL_Rect destRect = { 0, 0, game.width, game.height };
-    
-    // if (game.input.down || game.input.up || game.input.down || game.input.left || game.input.right )
-    // {
-    //     // debug
-    //     printf("srcRect: x=%d, y=%d, w=%d, h=%d\n", srcRect.x, srcRect.y, srcRect.w, srcRect.h);
-    //     printf("destRect: x=%d, y=%d, w=%d, h=%d\n", destRect.x, destRect.y, destRect.w, destRect.h);
-    // }
 
-    
     SDL_RenderCopy(game.renderer, largeTexture, &srcRect, &destRect);
     player_render(&game);
     

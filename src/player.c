@@ -2,9 +2,8 @@
 #include <SDL_image.h>
 
 
-static int animationTime = 0; 
-
-Player player_init(Game* game) {
+Player player_init(Game* game) 
+{
     Player player;
     player.x = 48;
     player.y = 48;
@@ -28,59 +27,34 @@ Player player_init(Game* game) {
     return player;
 }
 
-void player_update(Game* game, int frameTime) {
-    animationTime += frameTime;
-    if (animationTime > 1) {
-        game->player.currentFrame++;
-        if (game->player.currentFrame >= game->player.frameCount) {
-            game->player.currentFrame = 0;
-        }
-        game->player.srcRect.x = game->player.currentFrame * 48;
-        //game->player.currentFrame = 0;
-        animationTime = 0; 
+
+void player_update(Game* game, float deltaTime) 
+{
+    game->player.currentFrame += 10.0f * deltaTime;  // 10.0f is the speed of the animation
+    if (game->player.currentFrame >= game->player.frameCount) {
+        game->player.currentFrame -= game->player.frameCount;
     }
+    game->player.srcRect.x = (int)game->player.currentFrame * 48;
 }
 
-void player_render(Game* game) {
-    // if (player.texture) {
-    //     SDL_RenderCopy(renderer, player.texture, &player.srcRect, &player.destRect);
-    //     printf("bleh\n");
-    // }
-    if (!game->renderer) {
-        SDL_Log("Player or renderer is NULL");
-        return;
-    }
 
-    if (!game->player.texture) {
-        SDL_Log("Player texture is NULL");
-        return;
-    }
-
-    // Log the src_rect values to ensure they are correct
-    // SDL_Log("src_rect - x: %d, y: %d, w: %d, h: %d", 
-    //         game->player.srcRect.x, game->player.srcRect.y, 
-    //         game->player.srcRect.w, game->player.srcRect.h);
-
+void player_render(Game* game) 
+{
     // Render the player texture
-    int render_result = SDL_RenderCopy(game->renderer, game->player.texture, &game->player.srcRect, &game->player.destRect);
-
-    if (render_result < 0) {
-        SDL_Log("Failed to render player texture: %s", SDL_GetError());
-    }
-
-    // Ensure SDL_RenderPresent is called after rendering the player
-    // This can be removed if SDL_RenderPresent is called elsewhere after rendering the player
-    //SDL_RenderPresent(game->renderer);
+    SDL_RenderCopy(game->renderer, game->player.texture, &game->player.srcRect, &game->player.destRect);
 }
 
-void player_change_animation(int frameCount, int yPosition, Game* game) {
+void player_change_animation(int frameCount, int yPosition, Game* game) 
+{
     game->player.frameCount = frameCount;
     game->player.currentFrame = 0;
     game->player.srcRect.y = yPosition;
 }
 
-void player_destroy(Game* game) {
-    if (game->player.texture) {
+void player_destroy(Game* game) 
+{
+    if (game->player.texture) 
+    {
         SDL_DestroyTexture(game->player.texture);
         game->player.texture = NULL;
     }
