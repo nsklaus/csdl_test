@@ -1,5 +1,6 @@
 #include "input.h"
 #include <stdio.h>
+#include "player.h"
 
 void toggle_fullscreen(Game* game) {  // Added this function
     Uint32 fullscreenFlag = SDL_WINDOW_FULLSCREEN;
@@ -59,7 +60,8 @@ void input_handle_events(Game* game)
                         // {
                         //     game->camera.x -= game->camera.speed;
                         // }
-                        game->player.dx = -5;
+                        if (game->player.srcRect.y != 0 ) { player_change_animation(9, 0, game); }
+                        game->player.dx = -2;
                         break;
                     case SDLK_RIGHT:
                         game->input.right = true;
@@ -72,7 +74,8 @@ void input_handle_events(Game* game)
                         // {
                         //     game->camera.x = game->tilemap.width  * 16 - game->width;
                         // }
-                        game->player.dx = 5;
+                        if (game->player.srcRect.y != 48 ) { player_change_animation(9, 48, game); }
+                        game->player.dx = 2;
                         break;
                     case SDLK_f:  // Added this case to handle fullscreen toggle
                         game->fullscreen = true;
