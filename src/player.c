@@ -7,18 +7,18 @@ int world_x = 0, world_y = 0;
 Player player_init(Game* game) 
 {
     Player player;
-    player.x = 48;
-    player.y = 48;
+    // player.x = 48;
+    // player.y = 48;
     player.srcRect.w = 48;
     player.srcRect.h = 48;
     player.srcRect.x = 0;
-    player.srcRect.y = 48;
+    player.srcRect.y = 288; //standing sprite (6th row)
     player.destRect.w = 48;
     player.destRect.h = 48;
     player.destRect.x = 200;
     player.destRect.y = 176;
     player.frameCount = 1;
-    player.currentFrame = 0; //standing sprite
+    player.currentFrame = 0; 
 
     // Load the player's texture
     player.texture = IMG_LoadTexture(game->renderer, "Assets/samus.png");
