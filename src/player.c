@@ -47,6 +47,8 @@ void player_update(Game* game, float deltaTime)
 void player_render(Game* game) 
 {
     // Render the player texture
+    game->player.destRect.x = game->player.world_x - game->camera.x;
+    game->player.destRect.y = game->player.world_y - game->camera.y;
     SDL_RenderCopy(game->renderer, game->player.texture, &game->player.srcRect, &game->player.destRect);
 }
 

@@ -95,25 +95,6 @@ void game_run()
             }
         }
 
-
-// if (game.player.world_x > SCREEN_WIDTH / 2) {
-//     game.camera.x = game.player.world_x - SCREEN_WIDTH / 2;
-//     // Add this line to prevent stretching at the right edge
-//     if (game.camera.x + SCREEN_WIDTH > MAP_WIDTH) {
-//         game.camera.x = MAP_WIDTH - SCREEN_WIDTH;
-//     }
-// }
-// if (game.player.world_y > SCREEN_HEIGHT / 2) {
-//     game.camera.y = game.player.world_y - SCREEN_HEIGHT / 2;
-//     // Add this line to prevent stretching at the bottom edge
-//     if (game.camera.y + SCREEN_HEIGHT > MAP_HEIGHT) {
-//         game.camera.y = MAP_HEIGHT - SCREEN_HEIGHT;
-//     }
-// }
-
-
-
-
         player_update(&game, deltaTime);
 
         // Render game
