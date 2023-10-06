@@ -48,7 +48,7 @@ void game_create()
     load_map("./Assets/level01.json");
 
     game.quitting = false;
-    fprintf(stderr, "game is running\n");
+    fprintf(stderr, "game starts\n");
 }
 
 // return game instance 
@@ -58,7 +58,7 @@ Game* get_game() { return &game; }
 void load_map(const char* path) 
 { 
     largeTexture = createLargeTexture(&game, path);
-    printf("game_map_W=%d, game_map_H=%d \n", game.tilemap.width, game.tilemap.height); 
+    printf("loaded map=[%s] width=[%d], height=[%d] \n", path, game.tilemap.width, game.tilemap.height); 
 }
 
 
@@ -109,7 +109,7 @@ void game_run()
     }
 }
 
-/** Render the game elements **/
+// Render the game elements
 void render_game()
 {
     SDL_RenderClear(game.renderer);
@@ -127,7 +127,7 @@ void render_game()
 // Clean up resources and quits. called automatically from main.c
 void game_destroy() 
 {
-    printf("\n game quits \n");
+    printf("game quits \n");
     player_destroy(&game);
     SDL_DestroyRenderer(game.renderer);
     SDL_DestroyWindow(game.window);

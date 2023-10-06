@@ -69,8 +69,10 @@ void input_handle_events(Game* game)
                         break;
                 }
                 break;
-                
+
             case SDL_KEYUP:
+                // fallback to standing animation
+                if (game->player.srcRect.y != 288 ) { player_change_animation(1, 288, game);  }
                 game->player.dx = 0;
                 game->player.dy = 0;
                 break;
