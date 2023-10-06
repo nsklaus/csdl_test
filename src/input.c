@@ -46,13 +46,13 @@ void input_handle_events(Game* game)
 
                     case SDLK_LEFT:
                         game->input.left = true;
-                        if (game->player.srcRect.y != 0 ) { player_change_animation(9, 0, game); }
+                        if (game->player.srcRect.y != 0 ) { player_change_animation(9, RUNNING_L, game); }
                         game->player.dx = -2;
                         break;
 
                     case SDLK_RIGHT:
                         game->input.right = true;
-                        if (game->player.srcRect.y != 48 ) { player_change_animation(9, 48, game); }
+                        if (game->player.srcRect.y != 48 ) { player_change_animation(9, RUNNING_R, game); }
                         game->player.dx = 2;
                         break;
 
@@ -72,7 +72,7 @@ void input_handle_events(Game* game)
 
             case SDL_KEYUP:
                 // fallback to standing animation
-                if (game->player.srcRect.y != 288 ) { player_change_animation(1, 288, game);  }
+                if (game->player.srcRect.y != STANDING_F ) { player_change_animation(1, STANDING_F, game);  }
                 game->player.dx = 0;
                 game->player.dy = 0;
                 break;

@@ -4,23 +4,24 @@
 // Initialize world coordinates
 //int world_x = 0, world_y = 0;
 
+
 Player player_init(Game* game) 
 {
     Player player;
-    player.world_x = 150;   // initial position in game coords
+    player.world_x = 150;           // initial position in game coords
     player.world_y = 176;
 
-    player.srcRect.x = 0;   // cutting in spritesheet
-    player.srcRect.y = 288; // standing sprite (6th row)
-    player.srcRect.w = 48; 
-    player.srcRect.h = 48;
+    player.srcRect.x = 0;           // cutting in spritesheet
+    player.srcRect.y = STANDING_F;  // standing sprite (6th row)
+    player.srcRect.w = TILESIZE; 
+    player.srcRect.h = TILESIZE;
 
-    player.destRect.x = 0;  // screen coords 
+    player.destRect.x = 0;          // screen coords 
     player.destRect.y = 0;
-    player.destRect.w = 48;
-    player.destRect.h = 48;
+    player.destRect.w = TILESIZE;
+    player.destRect.h = TILESIZE;
 
-    player.frameCount = 1;  // initial animation number of frames
+    player.frameCount = 1;          // initial animation number of frames
     player.currentFrame = 0; 
 
     // Load the player's texture
@@ -51,10 +52,11 @@ void player_render(Game* game)
     SDL_RenderCopy(game->renderer, game->player.texture, &game->player.srcRect, &game->player.destRect);
 }
 
-void player_change_animation(int frameCount, int yPosition, Game* game) 
+// how much frames for a given anim type
+void player_change_animation(int frameCount, AnimationType animType, Game* game) 
 {
     game->player.frameCount = frameCount;
-    game->player.srcRect.y = yPosition;
+    game->player.srcRect.y = animType;
 }
 
 void player_destroy(Game* game) 
