@@ -16,10 +16,10 @@ SDL_Texture* createLargeTexture(Game* game, const char* path)
 
     cute_tiled_layer_t* tiled_layer = map->layers;
     
-    printf("\n layer width = %d\n",tiled_layer->width);
+    //printf("\n layer width = %d\n",tiled_layer->width);
     tilemap->width = tiled_layer->width;
     tilemap->height = tiled_layer->height;
-    printf("\n game tilemap width = %d\n",tilemap->width);
+    //printf("\n game tilemap width = %d\n",tilemap->width);
     for (tiled_layer = map->layers; tiled_layer; tiled_layer = tiled_layer->next) {
         if (strcmp(tiled_layer->name.ptr, "foreground") == 0) {
             break;

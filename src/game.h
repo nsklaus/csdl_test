@@ -34,6 +34,11 @@ typedef struct Input {
 } Input;
 
 typedef struct {
+    int dx;
+    int dy;
+    int world_x;
+    int world_y;
+    
     int x;
     int y;
     SDL_Rect srcRect;

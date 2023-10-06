@@ -1,6 +1,8 @@
 #include "player.h"
 #include <SDL_image.h>
 
+// Initialize world coordinates
+int world_x = 0, world_y = 0;
 
 Player player_init(Game* game) 
 {
@@ -30,6 +32,10 @@ Player player_init(Game* game)
 
 void player_update(Game* game, float deltaTime) 
 {
+    // Update world coordinates based on input
+    game->player.world_x += game->player.dx;
+    game->player.world_y += game->player.dy;
+
     game->player.currentFrame += 10.0f * deltaTime;  // 10.0f is the speed of the animation
     if (game->player.currentFrame >= game->player.frameCount) {
         game->player.currentFrame -= game->player.frameCount;

@@ -55,7 +55,11 @@ void game_create()
 Game* get_game() { return &game; }
 
 // Load the game map and textures
-void load_map(const char* path) { largeTexture = createLargeTexture(&game, path); }
+void load_map(const char* path) 
+{ 
+    largeTexture = createLargeTexture(&game, path);
+    printf("game_map_W=%d, game_map_H=%d \n", game.tilemap.width, game.tilemap.height); 
+}
 
 
 
@@ -76,6 +80,39 @@ void game_run()
 
         // Handle input events
         input_handle_events(&game);
+
+
+        if (game.player.world_x > game.width / 2) {
+            game.camera.x = game.player.world_x - game.width / 2;
+            if (game.camera.x + game.width > game.tilemap.width * 16) {
+                game.camera.x = game.tilemap.width * 16 - game.width;
+            }
+        }
+        if (game.player.world_y > game.height / 2) {
+            game.camera.y = game.player.world_y - game.height / 2;
+            if (game.camera.y + game.height > game.tilemap.height * 16 ) {
+                game.camera.y = game.tilemap.height * 16 - game.height;
+            }
+        }
+
+
+// if (game.player.world_x > SCREEN_WIDTH / 2) {
+//     game.camera.x = game.player.world_x - SCREEN_WIDTH / 2;
+//     // Add this line to prevent stretching at the right edge
+//     if (game.camera.x + SCREEN_WIDTH > MAP_WIDTH) {
+//         game.camera.x = MAP_WIDTH - SCREEN_WIDTH;
+//     }
+// }
+// if (game.player.world_y > SCREEN_HEIGHT / 2) {
+//     game.camera.y = game.player.world_y - SCREEN_HEIGHT / 2;
+//     // Add this line to prevent stretching at the bottom edge
+//     if (game.camera.y + SCREEN_HEIGHT > MAP_HEIGHT) {
+//         game.camera.y = MAP_HEIGHT - SCREEN_HEIGHT;
+//     }
+// }
+
+
+
 
         player_update(&game, deltaTime);
 
