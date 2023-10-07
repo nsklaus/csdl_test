@@ -18,14 +18,24 @@ typedef struct
     int speed; 
 } Camera;
 
-// wip
-typedef struct 
-{
+typedef struct {
+    int width;
+    int height;
+    SDL_Texture* texture;  
+} RenderLayer;
+
+typedef struct {
+    // shape data: rectangles and triangles for collision
+} CollisionLayer;
+
+typedef struct {
     int width;
     int height;
     int tilesize;
     int tileset_w;
     int tileset_h;
+    RenderLayer R_Layer[3];  // Array of 3 render layers
+    CollisionLayer C_layer;   // Single collision layer
 } Map;
 
 typedef struct Input {

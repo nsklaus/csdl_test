@@ -64,6 +64,10 @@ SDL_Texture* createLargeTexture(Game* game, const char* path)
 
 
 void createCollisionMap(Game* game, const char* path) {
-
+    Map* map_t = &game->tilemap;
+    CollisionLayer* c_layer = &map_t->C_layer;
 
 }
+
+
+
