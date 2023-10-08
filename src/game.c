@@ -61,7 +61,7 @@ void load_map(const char* path)
 
 
 
-// game loop, handling input and rendering
+// game loop, handling input, updates .. 
 void game_run()
 {
     Uint32 lastTime = SDL_GetTicks();  // Initialize lastTime
@@ -95,20 +95,21 @@ void game_run()
 
         player_update(&game, deltaTime);
 
-        // TODO : fix collision rect initial position and update as the map scrolls they should follow
-        if (game.input.down || game.input.up || game.input.down || game.input.left || game.input.right )
-        {
+        // update collision rectangles positions when map scrolls
+        if (game.camera.x != 0 || game.camera.y != 0) 
+        { 
             for (int y = 0; y < game.map.height; ++y) 
             {
                 for (int x = 0; x < game.map.width; ++x) 
                 {
-                    game.map.collide[y][x].rect.x -= game.camera.x;
-                    game.map.collide[y][x].rect.y -= game.camera.y;
+                    game.map.collide[y][x].rect.x = (x * 16) - game.camera.x;
+                    game.map.collide[y][x].rect.y = (y * 16) - game.camera.y;
                 }
             }
         }
 
-        // Render game
+
+        // all updates done, now render the game
         render_game();
 
         // Frame rate control using deltaTime
@@ -134,9 +135,6 @@ void render_game()
 
     player_render(&game);
 
-
-    //printf("game.map.height=%d   game.height=%d\n",game.map.height,game.height );
-
     //  ===========
     // DEBUG: render collision rectangles
     SDL_SetRenderDrawColor(game.renderer, 255, 0, 0, 255); // Set color to red for debugging
@@ -145,23 +143,25 @@ void render_game()
     {
         for (int x = 0; x < game.map.width; ++x) 
         {
-            SDL_RenderDrawRect(game.renderer, &game.map.collide[y][x].rect);
+            if (game.map.collide[y][x].solid)
+            {
+                SDL_RenderDrawRect(game.renderer, &game.map.collide[y][x].rect);
+            }
         }
     }
-
     SDL_SetRenderDrawColor(game.renderer, 0, 0, 0, 255); // Reset color
     //  ============
-
 
     SDL_RenderPresent(game.renderer);
 }
 
-// Clean up resources and quits. called automatically from main.c
+// Clean up resources and quits. 
+// called automatically from main.c
 void game_destroy() 
 {
     printf("game ends \n");
     player_destroy(&game);
     SDL_DestroyRenderer(game.renderer);
     SDL_DestroyWindow(game.window);
-    SDL_Quit();  // Clean up SDL initialization
+    SDL_Quit();
 }

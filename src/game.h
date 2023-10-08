@@ -19,6 +19,7 @@ typedef struct {
     char* type;     // doors, switches, pickup objects, elevators, floors, walls, ceillings ..
     int value;      // in case of doors: room number it links to.
     bool active;    // in case of switches, elevators and such
+    bool solid;
     SDL_Rect rect;
 } Tile_t;
 

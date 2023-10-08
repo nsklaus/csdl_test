@@ -91,6 +91,7 @@ void createLargeTexture(Game_t* game, const char* path)
                     if (tileID == 1711)  // rectangle 
                     {
                         game->map.collide[y][x].rect = (SDL_Rect){x*16, y*16, 16, 16};
+                        game->map.collide[y][x].solid = true;
                     }
                 }
             }
