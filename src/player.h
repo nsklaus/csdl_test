@@ -22,10 +22,10 @@ typedef enum
     
 } AnimationType;
 
-Player player_init(Game* game);
-void player_update(Game* game, float deltaTime);
-void player_render(Game* game);
-void player_change_animation(int frameCount, AnimationType animType, Game* game);
-void player_destroy(Game* game);
+Player_t player_init(Game_t* game);
+void player_update(Game_t* game, float deltaTime);
+void player_render(Game_t* game);
+void player_change_animation(int frameCount, AnimationType animType, Game_t* game);
+void player_destroy(Game_t* game);
 
 #endif // PLAYER_H

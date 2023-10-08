@@ -5,9 +5,9 @@
 //int world_x = 0, world_y = 0;
 
 
-Player player_init(Game* game) 
+Player_t player_init(Game_t* game) 
 {
-    Player player;
+    Player_t player;
     player.world_x = 150;           // initial position in game coords
     player.world_y = 176;
 
@@ -30,7 +30,7 @@ Player player_init(Game* game)
 }
 
 
-void player_update(Game* game, float deltaTime) 
+void player_update(Game_t* game, float deltaTime) 
 {
     // Update world coordinates based on input
     game->player.world_x += game->player.dx;
@@ -44,7 +44,7 @@ void player_update(Game* game, float deltaTime)
 }
 
 
-void player_render(Game* game) 
+void player_render(Game_t* game) 
 {
     // Render the player texture
     game->player.destRect.x = game->player.world_x - game->camera.x;
@@ -53,13 +53,13 @@ void player_render(Game* game)
 }
 
 // how much frames for a given anim type
-void player_change_animation(int frameCount, AnimationType animType, Game* game) 
+void player_change_animation(int frameCount, AnimationType animType, Game_t* game) 
 {
     game->player.frameCount = frameCount;
     game->player.srcRect.y = animType;
 }
 
-void player_destroy(Game* game) 
+void player_destroy(Game_t* game) 
 {
     if (game->player.texture) 
     {

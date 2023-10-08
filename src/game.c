@@ -10,7 +10,7 @@
 Uint32 lastTime = 0;
 
 // create  game instance
-Game game;
+Game_t game;
 
 // Initialize the game, create window and renderer
 void game_create()
@@ -51,14 +51,12 @@ void game_create()
     fprintf(stderr, "game starts\n");
 }
 
-// return game instance 
-Game* get_game() { return &game; }
-
 // Load the game map and textures
 void load_map(const char* path) 
 { 
-    largeTexture = createLargeTexture(&game, path);
-    printf("loaded map=[%s] width=[%d], height=[%d] \n", path, game.tilemap.width, game.tilemap.height); 
+    //largeTexture = createLargeTexture(&game, path);
+    createLargeTexture(&game, path);
+    printf("loaded map=[%s] width=[%d], height=[%d] \n", path, game.map.width, game.map.height); 
 }
 
 
@@ -84,18 +82,31 @@ void game_run()
 
         if (game.player.world_x > game.width / 2) {
             game.camera.x = game.player.world_x - game.width / 2;
-            if (game.camera.x + game.width > game.tilemap.width * 16) {
-                game.camera.x = game.tilemap.width * 16 - game.width;
+            if (game.camera.x + game.width > game.map.width * 16) {
+                game.camera.x = game.map.width * 16 - game.width;
             }
         }
         if (game.player.world_y > game.height / 2) {
             game.camera.y = game.player.world_y - game.height / 2;
-            if (game.camera.y + game.height > game.tilemap.height * 16 ) {
-                game.camera.y = game.tilemap.height * 16 - game.height;
+            if (game.camera.y + game.height > game.map.height * 16 ) {
+                game.camera.y = game.map.height * 16 - game.height;
             }
         }
 
         player_update(&game, deltaTime);
+
+        // TODO : fix collision rect initial position and update as the map scrolls they should follow
+        if (game.input.down || game.input.up || game.input.down || game.input.left || game.input.right )
+        {
+            for (int y = 0; y < game.map.height; ++y) 
+            {
+                for (int x = 0; x < game.map.width; ++x) 
+                {
+                    game.map.collide[y][x].rect.x -= game.camera.x;
+                    game.map.collide[y][x].rect.y -= game.camera.y;
+                }
+            }
+        }
 
         // Render game
         render_game();
@@ -118,16 +129,37 @@ void render_game()
     SDL_Rect srcRect = { game.camera.x, game.camera.y, game.width, game.height };
     SDL_Rect destRect = { 0, 0, game.width, game.height };
 
-    SDL_RenderCopy(game.renderer, largeTexture, &srcRect, &destRect);
+    //SDL_RenderCopy(game.renderer, largeTexture, &srcRect, &destRect);
+    SDL_RenderCopy(game.renderer, game.map.texture[0], &srcRect, &destRect);
+
     player_render(&game);
-    
+
+
+    //printf("game.map.height=%d   game.height=%d\n",game.map.height,game.height );
+
+    //  ===========
+    // DEBUG: render collision rectangles
+    SDL_SetRenderDrawColor(game.renderer, 255, 0, 0, 255); // Set color to red for debugging
+
+    for (int y = 0; y < game.map.height; ++y) 
+    {
+        for (int x = 0; x < game.map.width; ++x) 
+        {
+            SDL_RenderDrawRect(game.renderer, &game.map.collide[y][x].rect);
+        }
+    }
+
+    SDL_SetRenderDrawColor(game.renderer, 0, 0, 0, 255); // Reset color
+    //  ============
+
+
     SDL_RenderPresent(game.renderer);
 }
 
 // Clean up resources and quits. called automatically from main.c
 void game_destroy() 
 {
-    printf("game quits \n");
+    printf("game ends \n");
     player_destroy(&game);
     SDL_DestroyRenderer(game.renderer);
     SDL_DestroyWindow(game.window);

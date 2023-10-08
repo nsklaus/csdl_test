@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "player.h"
 
-void toggle_fullscreen(Game* game) {  // Added this function
+void toggle_fullscreen(Game_t* game) {  // Added this function
     Uint32 fullscreenFlag = SDL_WINDOW_FULLSCREEN;
     bool isFullscreen = SDL_GetWindowFlags(game->window) & fullscreenFlag;
 
@@ -10,7 +10,7 @@ void toggle_fullscreen(Game* game) {  // Added this function
     SDL_ShowCursor(isFullscreen);
 }
 
-void input_handle_events(Game* game) 
+void input_handle_events(Game_t* game) 
 {  
     SDL_Event event;
     

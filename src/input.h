@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include "game.h"
 
-void input_handle_events(Game* game);
-void toggle_fullscreen(Game* game);
+void input_handle_events(Game_t* game);
+void toggle_fullscreen(Game_t* game);
 
 #endif // INPUT_H

@@ -9,22 +9,6 @@
 #include "game.h"
 
 
-struct  mymap{
-    int map_width;
-    int map_height;
-    int layer_name;
-    int *layer_data[3];
-    int layer_length;
-    int layer_id;
-    char *tileset_name;
-    int tileset_firstgid;
-    int counter;
-} ;
-
-//struct Game; 
-
-void free_map(struct mymap *m);
-//void process_map(SDL_Renderer* renderer, const char* path);
-SDL_Texture* createLargeTexture( Game* game, const char* path);
+void createLargeTexture(Game_t* game, const char* path);
 
 #endif /* makemap_h */

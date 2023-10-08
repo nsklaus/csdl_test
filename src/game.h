@@ -4,13 +4,10 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_rect.h>
 #include <stdbool.h>
 #include <stdio.h>
-//#include "player.h"
 
-
-// workaround circular includes,
-// define structs first before loading makemap.h
 typedef struct 
 {
     int x, y; // Camera position
@@ -19,14 +16,11 @@ typedef struct
 } Camera;
 
 typedef struct {
-    int width;
-    int height;
-    SDL_Texture* texture;  
-} RenderLayer;
-
-typedef struct {
-    // shape data: rectangles and triangles for collision
-} CollisionLayer;
+    char* type;     // doors, switches, pickup objects, elevators, floors, walls, ceillings ..
+    int value;      // in case of doors: room number it links to.
+    bool active;    // in case of switches, elevators and such
+    SDL_Rect rect;
+} Tile_t;
 
 typedef struct {
     int width;
@@ -34,9 +28,9 @@ typedef struct {
     int tilesize;
     int tileset_w;
     int tileset_h;
-    RenderLayer R_Layer[3];  // Array of 3 render layers
-    CollisionLayer C_layer;   // Single collision layer
-} Map;
+    SDL_Texture* texture[2];  // layers to render (foreground and background)
+    Tile_t** collide;           // collision-layer
+} Map_t;
 
 typedef struct Input {
     bool up;
@@ -44,7 +38,7 @@ typedef struct Input {
     bool left;
     bool right;
     bool action;
-} Input;
+} Input_t;
 
 typedef struct {
     int dx;
@@ -56,7 +50,7 @@ typedef struct {
     int frameCount;
     float currentFrame;
     SDL_Texture* texture;
-} Player;
+} Player_t;
 
 typedef struct 
 {
@@ -64,23 +58,19 @@ typedef struct
     SDL_Renderer* renderer;
     int width;
     int height;
-    Map tilemap;
+    Map_t map;
     Camera camera;
-    Input input; 
-    Player player;
+    Input_t input; 
+    Player_t player;
     bool fullscreen;
     bool quitting;
-} Game;
-
-#include "makemap.h"
+} Game_t;
 
 
+
+extern void createLargeTexture(Game_t* game, const char* path);
 void load_map(const char* path);
 void game_create(void);
-
-Game* get_game(void);
-//SDL_Texture*
-SDL_Texture* texture;
 SDL_Texture* largeTexture;
 
 void game_run(void);
