@@ -22,8 +22,11 @@ typedef enum
     
 } AnimationType;
 
+//extern bool player_check_collision(Game_t* game);
 Player_t player_init(Game_t* game);
 void player_update(Game_t* game, float deltaTime);
+bool player_check_collision(Game_t* game, int temp_x, int temp_y);
+void move_player(Game_t* game, int dx, int dy);
 void player_render(Game_t* game);
 void player_change_animation(int frameCount, AnimationType animType, Game_t* game);
 void player_destroy(Game_t* game);

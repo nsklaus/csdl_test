@@ -51,6 +51,11 @@ typedef struct {
     int frameCount;
     float currentFrame;
     SDL_Texture* texture;
+    bool can_move_up;
+    bool can_move_down;
+    bool can_move_left;
+    bool can_move_right;
+
 } Player_t;
 
 typedef struct 
@@ -72,9 +77,12 @@ typedef struct
 extern void createLargeTexture(Game_t* game, const char* path);
 void load_map(const char* path);
 void game_create(void);
-SDL_Texture* largeTexture;
+//SDL_Texture* largeTexture;
 
 void game_run(void);
+//void check_collision(SDL_Rect* a, SDL_Rect* b);
+//void check_collision(Player_t *player, Map_t *map);
+
 void render_game();
 void game_destroy(void);
 

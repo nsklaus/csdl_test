@@ -88,7 +88,47 @@ void createLargeTexture(Game_t* game, const char* path)
                     //int tileID = map_layer->data[y * map->width + x] - 1; // Adjusting for 0 index
                     int tileID = map_layer->data[y * map->width + x];
                     //printf("tileID=[%d]\n ",tileID);
-                    if (tileID == 1711)  // rectangle 
+                    if (tileID == 1711 || tileID == 1705 || tileID == 1706 )  // rectangle 
+                    {
+                        game->map.collide[y][x].rect = (SDL_Rect){x*16, y*16, 16, 16};
+                        game->map.collide[y][x].solid = true;
+                    }
+                    if (tileID == 1705 )  // rectangle 
+                    {
+                        game->map.collide[y][x].rect = (SDL_Rect){x*16, y*16, 16, 16};
+                        game->map.collide[y][x].solid = true;
+                    }
+                    if (tileID == 1706 )  // rectangle 
+                    {
+                        game->map.collide[y][x].rect = (SDL_Rect){x*16, y*16, 16, 16};
+                        game->map.collide[y][x].solid = true;
+                    }
+                    if (tileID == 1707 )  // rectangle 
+                    {
+                        game->map.collide[y][x].rect = (SDL_Rect){x*16, y*16, 16, 16};
+                        game->map.collide[y][x].solid = true;
+                    }
+                    if (tileID == 1708 )  // rectangle 
+                    {
+                        game->map.collide[y][x].rect = (SDL_Rect){x*16, y*16, 16, 16};
+                        game->map.collide[y][x].solid = true;
+                    }
+                    if (tileID == 1721 )  // rectangle 
+                    {
+                        game->map.collide[y][x].rect = (SDL_Rect){x*16, y*16, 16, 16};
+                        game->map.collide[y][x].solid = true;
+                    }
+                    if (tileID == 1722 )  // rectangle 
+                    {
+                        game->map.collide[y][x].rect = (SDL_Rect){x*16, y*16, 16, 16};
+                        game->map.collide[y][x].solid = true;
+                    }
+                    if (tileID == 1723 )  // rectangle 
+                    {
+                        game->map.collide[y][x].rect = (SDL_Rect){x*16, y*16, 16, 16};
+                        game->map.collide[y][x].solid = true;
+                    }
+                    if (tileID == 1724 )  // rectangle 
                     {
                         game->map.collide[y][x].rect = (SDL_Rect){x*16, y*16, 16, 16};
                         game->map.collide[y][x].solid = true;

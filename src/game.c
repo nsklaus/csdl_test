@@ -12,6 +12,9 @@ Uint32 lastTime = 0;
 // create  game instance
 Game_t game;
 
+#define min(a, b) ((a) < (b) ? (a) : (b))
+#define max(a, b) ((a) > (b) ? (a) : (b))
+
 // Initialize the game, create window and renderer
 void game_create()
 {
@@ -79,7 +82,7 @@ void game_run()
         // Handle input events
         input_handle_events(&game);
 
-
+        // move map according to player position
         if (game.player.world_x > game.width / 2) {
             game.camera.x = game.player.world_x - game.width / 2;
             if (game.camera.x + game.width > game.map.width * 16) {
@@ -109,6 +112,7 @@ void game_run()
         }
 
 
+
         // all updates done, now render the game
         render_game();
 
@@ -121,10 +125,12 @@ void game_run()
     }
 }
 
+
+
 // Render the game elements
 void render_game()
 {
-    SDL_RenderClear(game.renderer);
+    //SDL_RenderClear(game.renderer);
 
     // camera render rectangle
     SDL_Rect srcRect = { game.camera.x, game.camera.y, game.width, game.height };
@@ -151,6 +157,8 @@ void render_game()
     }
     SDL_SetRenderDrawColor(game.renderer, 0, 0, 0, 255); // Reset color
     //  ============
+
+    //check_collision(&game.player, &game.map);
 
     SDL_RenderPresent(game.renderer);
 }
