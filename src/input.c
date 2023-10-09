@@ -38,7 +38,7 @@ void input_handle_events(Game_t* game)
                         // game->input.up = true;
                         // game->player.dy = -5;
                         if (move_player_if_possible(game, 0, -2)) {
-                            game->input.up = true;
+                            //game->input.up = true;
                             game->player.dy = -2;
                         } else {
                             game->player.dy = 0;
@@ -50,8 +50,8 @@ void input_handle_events(Game_t* game)
                         // game->input.down = true;
                         // game->player.dy = 5;
                         if (move_player_if_possible(game, 0, 2)) {
-                            game->input.down = true;
-                            game->player.dy = 5;
+                            //game->input.down = true;
+                            game->player.dy = 2;
                         } else {
                             game->player.dy = 0;
 
@@ -63,7 +63,7 @@ void input_handle_events(Game_t* game)
                         // if (game->player.srcRect.y != 0 ) { player_change_animation(9, RUNNING_L, game); }
                         // game->player.dx = -2;
                         if (move_player_if_possible(game, -2, 0)) {
-                            game->input.left = true;
+                            //game->input.left = true;
                             if (game->player.srcRect.y != 0 ) { player_change_animation(9, RUNNING_L, game); }
                             game->player.dx = -2;
                         } else {
@@ -77,7 +77,7 @@ void input_handle_events(Game_t* game)
                         // if (game->player.srcRect.y != 48 ) { player_change_animation(9, RUNNING_R, game); }
                         // game->player.dx = 2;
                         if (move_player_if_possible(game, 2, 0)) {
-                            game->input.right = true;
+                            //game->input.right = true;
                             if (game->player.srcRect.y != 48 ) { player_change_animation(9, RUNNING_R, game); }
                             game->player.dx = 2;                           
                         } else {
@@ -113,22 +113,26 @@ void input_handle_events(Game_t* game)
     }
 }
 
+
+
 bool move_player_if_possible(Game_t* game, int dx, int dy) {
-    int original_x = game->player.srcRect.x;
-    int original_y = game->player.srcRect.y;
+    int new_x = game->player.destRect.x + dx;
+    int new_y = game->player.destRect.y + dy;
 
-    int temp_x = original_x + dx;
-    int temp_y = original_y + dy;
-
-    if (player_check_collision(game, temp_x, temp_y)) {
-        // Reset to original position if collision detected
-        game->player.srcRect.x = original_x;
-        game->player.srcRect.y = original_y;
-        return false;
-    } else {
-        // Update player's position if no collision
-        game->player.srcRect.x = temp_x;
-        game->player.srcRect.y = temp_y;
-        return true;
+    // Loop through all solid blocks in your map
+    for (int y = 0; y < game->map.height; ++y) {
+        for (int x = 0; x < game->map.width; ++x) {
+            if (game->map.collide[y][x].solid) {
+                SDL_Rect* rect = &game->map.collide[y][x].rect;
+                if (SDL_HasIntersection(&(SDL_Rect){new_x, new_y, game->player.destRect.w, game->player.destRect.h}, rect)) {
+                    return false; // Collision detected, don't move
+                }
+            }
+        }
     }
+
+    // No collision detected, move the player
+    game->player.destRect.x = new_x;
+    game->player.destRect.y = new_y;
+    return true;
 }
