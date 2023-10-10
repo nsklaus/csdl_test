@@ -70,6 +70,7 @@ typedef struct
     Player_t player;
     bool fullscreen;
     bool quitting;
+    bool debug;
 } Game_t;
 
 

@@ -157,19 +157,22 @@ void render_game()
 
     //  ===========
     // DEBUG: render collision rectangles
-    SDL_SetRenderDrawColor(game.renderer, 255, 0, 0, 255); // Set color to red for debugging
-
-    for (int y = 0; y < game.map.height; ++y) 
+    if (game.debug)
     {
-        for (int x = 0; x < game.map.width; ++x) 
+        SDL_SetRenderDrawColor(game.renderer, 255, 0, 0, 255); // Set color to red for debugging
+
+        for (int y = 0; y < game.map.height; ++y) 
         {
-            if (game.map.tile[y][x].solid)
+            for (int x = 0; x < game.map.width; ++x) 
             {
-                SDL_RenderDrawRect(game.renderer, &game.map.tile[y][x].rect);
+                if (game.map.tile[y][x].solid)
+                {
+                    SDL_RenderDrawRect(game.renderer, &game.map.tile[y][x].rect);
+                }
             }
         }
+        SDL_SetRenderDrawColor(game.renderer, 0, 0, 0, 255); // Reset color
     }
-    SDL_SetRenderDrawColor(game.renderer, 0, 0, 0, 255); // Reset color
     //  ============
 
     //check_collision(&game.player, &game.map);

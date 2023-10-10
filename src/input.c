@@ -12,6 +12,7 @@ SDL_Rect* will_collide(Game_t* game, int dx, int dy) {
     predictedRect.x += dx;
     predictedRect.y += dy;
 
+    // check for collision only with nearby
     int playerGridX = (game->player.world_x + dx) / 16;
     int playerGridY = (game->player.world_y + dy) / 16;
 
@@ -81,6 +82,12 @@ void input_handle_events(Game_t* game) {
                     case SDLK_ESCAPE:
                         game->quitting = true;
                         break;
+                    case SDLK_d:
+                        if (event.key.repeat == 0) 
+                        {
+                            game->debug = !game->debug;
+                            break;
+                        }
                 }
                 break;
 
