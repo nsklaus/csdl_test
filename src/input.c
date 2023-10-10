@@ -6,13 +6,11 @@
 static int temp_dx = 0;
 static int temp_dy = 0;
 
-bool will_collide(Game_t* game, int dx, int dy) {
+SDL_Rect* will_collide(Game_t* game, int dx, int dy) {
+    static SDL_Rect collidingTile;
     SDL_Rect predictedRect = game->player.dstRect;
     predictedRect.x += dx;
     predictedRect.y += dy;
-
-    printf("Predicted Rect: x=%d, y=%d, w=%d, h=%d\n",
-           predictedRect.x, predictedRect.y, predictedRect.w, predictedRect.h);
 
     int playerGridX = (game->player.world_x + dx) / 16;
     int playerGridY = (game->player.world_y + dy) / 16;
@@ -23,19 +21,14 @@ bool will_collide(Game_t* game, int dx, int dy) {
     for (int y = playerGridY - playerSpanY; y <= playerGridY + playerSpanY; ++y) {
         for (int x = playerGridX - playerSpanX; x <= playerGridX + playerSpanX; ++x) {
             if (x >= 0 && x < game->map.width && y >= 0 && y < game->map.height) {
-                printf("Tile Rect: x=%d, y=%d, w=%d, h=%d\n",
-                       game->map.tile[y][x].rect.x, game->map.tile[y][x].rect.y,
-                       game->map.tile[y][x].rect.w, game->map.tile[y][x].rect.h);
-
                 if (SDL_HasIntersection(&predictedRect, &game->map.tile[y][x].rect)) {
-                    printf("Collision detected with tile at (%d, %d)\n", x, y);
-                    return true;
+                    collidingTile = game->map.tile[y][x].rect;
+                    return &collidingTile;
                 }
             }
         }
     }
-
-    return false;
+    return NULL;
 }
 
 void toggle_fullscreen(Game_t* game) {
@@ -47,7 +40,6 @@ void toggle_fullscreen(Game_t* game) {
 
 void input_handle_events(Game_t* game) {
     SDL_Event event;
-    // int temp_dx = 0, temp_dy = 0;
 
     // Update tile collision rectangles
     for (int y = 0; y < game->map.height; ++y) {
@@ -75,15 +67,27 @@ void input_handle_events(Game_t* game) {
                         temp_dy = 2;
                         break;
                     case SDLK_LEFT:
+                        if (game->player.srcRect.y != RUNNING_L ) { player_change_animation(9, RUNNING_L, game); }
                         temp_dx = -2;
                         break;
                     case SDLK_RIGHT:
+                        if (game->player.srcRect.y != RUNNING_R ) { player_change_animation(9, RUNNING_R, game); }
                         temp_dx = 2;
+                        break;
+                    case SDLK_f: 
+                        game->fullscreen = true;
+                        toggle_fullscreen(game);
+                        break;
+                    case SDLK_ESCAPE:
+                        game->quitting = true;
                         break;
                 }
                 break;
 
             case SDL_KEYUP:
+                // fallbacl to default animation
+                if (game->player.srcRect.y != STANDING_F ) { player_change_animation(1, STANDING_F, game);  }
+                
                 switch (event.key.keysym.sym) {
                     case SDLK_UP:
                     case SDLK_DOWN:
@@ -99,10 +103,17 @@ void input_handle_events(Game_t* game) {
     }
 
     // Perform collision check
-    if (!will_collide(game, temp_dx, temp_dy)) {
+    SDL_Rect* collidingTile = will_collide(game, temp_dx, temp_dy);
+
+    if (!collidingTile) {
         game->player.dx = temp_dx;
         game->player.dy = temp_dy;
     } else {
+        if (temp_dy < 0) {
+            if (game->player.dstRect.y > collidingTile->y) {
+                game->player.world_y = collidingTile->y + collidingTile->h + game->camera.y;
+            }
+        }
         game->player.dx = 0;
         game->player.dy = 0;
     }
@@ -115,4 +126,3 @@ void input_handle_events(Game_t* game) {
     game->player.dstRect.x = game->player.world_x - game->camera.x;
     game->player.dstRect.y = game->player.world_y - game->camera.y;
 }
-

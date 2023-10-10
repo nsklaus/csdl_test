@@ -101,7 +101,7 @@ void createLargeTexture(Game_t* game, const char* path)
                     
                     if (tileID == 1705 )  // triangle 
                     {
-                        printf("x=[%d] y=[%d]\n",x,y);
+                        //printf("x=[%d] y=[%d]\n",x,y);
                         game->map.tile[y][x].rect = (SDL_Rect){x*16, y*16, 16, 16};
                         game->map.tile[y][x].solid = true;
                     }
