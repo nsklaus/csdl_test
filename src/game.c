@@ -59,7 +59,18 @@ void load_map(const char* path)
     printf("loaded map=[%s] width=[%d], height=[%d] \n", path, game.map.width, game.map.height); 
 }
 
-
+// void update_positions(Game_t* game) {
+//     for (int y = 0; y < game->map.height; ++y) {
+//         for (int x = 0; x < game->map.width; ++x) {
+//             if (game->map.tile[y][x].solid) {
+//                 game->map.tile[y][x].rect.x = (x * 16) - game->camera.x;
+//                 game->map.tile[y][x].rect.y = (y * 16) - game->camera.y;
+//             }
+//         }
+//     }
+//     game->player.dstRect.x = game->player.world_x - game->camera.x;
+//     game->player.dstRect.y = game->player.world_y - game->camera.y;
+// }
 
 // game loop, handling input, updates .. 
 void game_run()
