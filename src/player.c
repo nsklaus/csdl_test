@@ -16,10 +16,10 @@ Player_t player_init(Game_t* game)
     player.srcRect.w = TILESIZE; 
     player.srcRect.h = TILESIZE;
 
-    player.destRect.x = 0;          // screen coords 
-    player.destRect.y = 0;
-    player.destRect.w = TILESIZE;
-    player.destRect.h = TILESIZE;
+    player.dstRect.x = 0;          // screen coords 
+    player.dstRect.y = 0;
+    player.dstRect.w = TILESIZE;
+    player.dstRect.h = TILESIZE;
 
     player.frameCount = 1;          // initial animation number of frames
     player.currentFrame = 0; 
@@ -33,23 +33,23 @@ Player_t player_init(Game_t* game)
 void player_update(Game_t* game, float deltaTime) 
 {
 
-    // // Store old position
+    // Store old position
     // int old_x = game->player.world_x;
     // int old_y = game->player.world_y;
 
-    // // Update world coordinates based on input
-    // game->player.world_x += game->player.dx;
-    // game->player.world_y += game->player.dy;
+    // // Calculate new position based on input
+    // int new_x = game->player.world_x + game->player.dx;
+    // int new_y = game->player.world_y + game->player.dy;
 
-    // // Update destination rectangle for collision check
-    // game->player.destRect.x = game->player.world_x - game->camera.x;
-    // game->player.destRect.y = game->player.world_y - game->camera.y;
-
-    // // Check for collision
-    // if (player_check_collision(game)) {
-    //     // Revert to old position
+    // // Check for collision at the new position
+    // if (check_collision(game, new_x, new_y)) {
+    //     // Collision detected, revert to old position
     //     game->player.world_x = old_x;
     //     game->player.world_y = old_y;
+    // } else {
+    //     // No collision, update the position
+    //     game->player.world_x = new_x;
+    //     game->player.world_y = new_y;
     // }
 
     // Update world coordinates based on input
@@ -61,40 +61,17 @@ void player_update(Game_t* game, float deltaTime)
         game->player.currentFrame -= game->player.frameCount;
     }
     game->player.srcRect.x = (int)game->player.currentFrame * 48;
-    
 
+    //if (SDL_HasIntersection(game->player.srcRect
+    //printf("player pos=[%d][%d]\n",game->player.world_x,game->player.world_y);
 }
-
-// void move_player(Game_t* game, int dx, int dy) {
-//   game->player.srcRect.x += dx;
-//   game->player.srcRect.y += dy;
-// }
-
-// bool player_check_collision(Game_t* game, int temp_x, int temp_y) {
-//     SDL_Rect tempRect = game->player.srcRect;
-//     tempRect.x = temp_x;
-//     tempRect.y = temp_y;
-//     for (int y = 0; y < game->map.height; ++y) {
-//         for (int x = 0; x < game->map.width; ++x) {
-//             if (game->map.collide[y][x].solid) {
-//                 SDL_Rect* rect = &game->map.collide[y][x].rect;
-//                 if (SDL_HasIntersection(rect, &tempRect)) {  // Changed from destRect to tempRect
-//                     printf("Collision detected at x=%d, y=%d\n", temp_x, temp_y);  // Debug 
-//                     return true;
-//                 }
-//             }
-//         }
-//     }
-//     printf("No collision at x=%d, y=%d\n", temp_x, temp_y);  // Debug 
-//     return false;
-// }
 
 void player_render(Game_t* game) 
 {
     // Render the player texture
-    game->player.destRect.x = game->player.world_x - game->camera.x;
-    game->player.destRect.y = game->player.world_y - game->camera.y;
-    SDL_RenderCopy(game->renderer, game->player.texture, &game->player.srcRect, &game->player.destRect);
+    // game->player.dstRect.x = game->player.world_x - game->camera.x;
+    // game->player.dstRect.y = game->player.world_y - game->camera.y;
+    SDL_RenderCopy(game->renderer, game->player.texture, &game->player.srcRect, &game->player.dstRect);
 }
 
 // how much frames for a given anim type

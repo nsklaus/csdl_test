@@ -12,9 +12,6 @@ Uint32 lastTime = 0;
 // create  game instance
 Game_t game;
 
-#define min(a, b) ((a) < (b) ? (a) : (b))
-#define max(a, b) ((a) > (b) ? (a) : (b))
-
 // Initialize the game, create window and renderer
 void game_create()
 {
@@ -99,17 +96,23 @@ void game_run()
         player_update(&game, deltaTime);
 
         // update collision rectangles positions when map scrolls
-        if (game.camera.x != 0 || game.camera.y != 0) 
-        { 
-            for (int y = 0; y < game.map.height; ++y) 
-            {
-                for (int x = 0; x < game.map.width; ++x) 
-                {
-                    game.map.collide[y][x].rect.x = (x * 16) - game.camera.x;
-                    game.map.collide[y][x].rect.y = (y * 16) - game.camera.y;
-                }
-            }
-        }
+        
+        // if (game.camera.x != 0 || game.camera.y != 0) 
+        // { 
+        //     for (int y = 0; y < game.map.height; ++y) 
+        //     {
+        //         for (int x = 0; x < game.map.width; ++x) 
+        //         {
+        //             // if(game.map.tile[y][x].solid)
+        //             // {
+        //             game.map.tile[y][x].rect.x = (x * 16) - game.camera.x;
+        //             game.map.tile[y][x].rect.y = (y * 16) - game.camera.y;
+        //             //printf("tileAt[%d][%d]\n",game.map.tile[y][x].rect.x, game.map.tile[y][x].rect.y);
+        //             //}
+        //         }
+        //     }
+        // }
+
 
 
 
@@ -149,9 +152,9 @@ void render_game()
     {
         for (int x = 0; x < game.map.width; ++x) 
         {
-            if (game.map.collide[y][x].solid)
+            if (game.map.tile[y][x].solid)
             {
-                SDL_RenderDrawRect(game.renderer, &game.map.collide[y][x].rect);
+                SDL_RenderDrawRect(game.renderer, &game.map.tile[y][x].rect);
             }
         }
     }

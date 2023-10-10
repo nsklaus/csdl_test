@@ -30,7 +30,7 @@ typedef struct {
     int tileset_w;
     int tileset_h;
     SDL_Texture* texture[2];  // layers to render (foreground and background)
-    Tile_t** collide;           // collision-layer
+    Tile_t** tile;           // collision-layer
 } Map_t;
 
 typedef struct Input {
@@ -47,7 +47,7 @@ typedef struct {
     int world_x;
     int world_y;
     SDL_Rect srcRect;
-    SDL_Rect destRect;
+    SDL_Rect dstRect;
     int frameCount;
     float currentFrame;
     SDL_Texture* texture;

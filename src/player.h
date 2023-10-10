@@ -4,6 +4,7 @@
 #include <SDL.h>
 #include <stdbool.h>
 #include "game.h"
+#include "input.h"
 
 typedef enum 
 {
