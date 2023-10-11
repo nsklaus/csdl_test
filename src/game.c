@@ -40,7 +40,7 @@ void game_create()
     game.camera.y = 0;
     game.camera.width = game.width; 
     game.camera.height = game.height; 
-    game.camera.speed = 20; 
+    //game.camera.speed = 1; 
 
     game.player = player_init(&game);
 
@@ -59,18 +59,7 @@ void load_map(const char* path)
     printf("loaded map=[%s] width=[%d], height=[%d] \n", path, game.map.width, game.map.height); 
 }
 
-// void update_positions(Game_t* game) {
-//     for (int y = 0; y < game->map.height; ++y) {
-//         for (int x = 0; x < game->map.width; ++x) {
-//             if (game->map.tile[y][x].solid) {
-//                 game->map.tile[y][x].rect.x = (x * 16) - game->camera.x;
-//                 game->map.tile[y][x].rect.y = (y * 16) - game->camera.y;
-//             }
-//         }
-//     }
-//     game->player.dstRect.x = game->player.world_x - game->camera.x;
-//     game->player.dstRect.y = game->player.world_y - game->camera.y;
-// }
+
 
 // game loop, handling input, updates .. 
 void game_run()
@@ -105,27 +94,6 @@ void game_run()
         }
 
         player_update(&game, deltaTime);
-
-        // update collision rectangles positions when map scrolls
-        
-        // if (game.camera.x != 0 || game.camera.y != 0) 
-        // { 
-        //     for (int y = 0; y < game.map.height; ++y) 
-        //     {
-        //         for (int x = 0; x < game.map.width; ++x) 
-        //         {
-        //             // if(game.map.tile[y][x].solid)
-        //             // {
-        //             game.map.tile[y][x].rect.x = (x * 16) - game.camera.x;
-        //             game.map.tile[y][x].rect.y = (y * 16) - game.camera.y;
-        //             //printf("tileAt[%d][%d]\n",game.map.tile[y][x].rect.x, game.map.tile[y][x].rect.y);
-        //             //}
-        //         }
-        //     }
-        // }
-
-
-
 
         // all updates done, now render the game
         render_game();
@@ -171,6 +139,7 @@ void render_game()
                 }
             }
         }
+        SDL_RenderDrawRect(game.renderer, &game.player.dstRect);
         SDL_SetRenderDrawColor(game.renderer, 0, 0, 0, 255); // Reset color
     }
     //  ============

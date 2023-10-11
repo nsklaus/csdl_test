@@ -12,14 +12,14 @@ typedef struct
 {
     int x, y; // Camera position
     int width, height; // Camera dimensions
-    int speed; 
+    //int speed; 
 } Camera;
 
 typedef struct {
     char* type;     // doors, switches, pickup objects, elevators, floors, walls, ceillings ..
     int value;      // in case of doors: room number it links to.
     bool active;    // in case of switches, elevators and such
-    bool solid;
+    bool solid;     // for collision
     SDL_Rect rect;
 } Tile_t;
 
@@ -39,11 +39,13 @@ typedef struct Input {
     bool left;
     bool right;
     bool action;
+    bool jump;
 } Input_t;
 
 typedef struct {
-    int dx;
+    int dx;                 // directional velocity    
     int dy;
+    float vy;                 // Vertical velocity
     int world_x;
     int world_y;
     SDL_Rect srcRect;
@@ -51,10 +53,11 @@ typedef struct {
     int frameCount;
     float currentFrame;
     SDL_Texture* texture;
-    bool can_move_up;
-    bool can_move_down;
-    bool can_move_left;
-    bool can_move_right;
+    bool isGrounded;        // gravity and jump
+    // bool can_move_up;
+    // bool can_move_down;
+    // bool can_move_left;
+    // bool can_move_right;
 
 } Player_t;
 
