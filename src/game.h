@@ -2,6 +2,7 @@
 #ifndef GAME_H
 #define GAME_H
 
+//#include "makemap.h"
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_rect.h>
@@ -12,6 +13,8 @@ typedef struct
 {
     int x, y; // Camera position
     int width, height; // Camera dimensions
+    SDL_Rect srcRect;
+    SDL_Rect dstRect;
     //int speed; 
 } Camera;
 
@@ -45,11 +48,12 @@ typedef struct Input {
 typedef struct {
     int dx;                 // directional velocity    
     int dy;
-    float vy;                 // Vertical velocity
+    float vy;               // Vertical velocity
     int world_x;
     int world_y;
     SDL_Rect srcRect;
     SDL_Rect dstRect;
+    SDL_Rect feetRect;      // test if onGround
     int frameCount;
     float currentFrame;
     SDL_Texture* texture;
@@ -78,16 +82,13 @@ typedef struct
 
 
 
-extern void createLargeTexture(Game_t* game, const char* path);
-void load_map(const char* path);
+extern void map_create(Game_t* game, const char* path);
+extern void map_update(Game_t* game);
+extern void map_render(Game_t* game);
+void map_load(const char* path);
 void game_create(void);
-//SDL_Texture* largeTexture;
-
-void game_run(void);
-//void check_collision(SDL_Rect* a, SDL_Rect* b);
-//void check_collision(Player_t *player, Map_t *map);
-
-void render_game();
+void game_loop(void);
+void game_render();
 void game_destroy(void);
 
 #endif // GAME_H

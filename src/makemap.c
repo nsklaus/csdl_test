@@ -1,14 +1,12 @@
-//#include "game.h"
-#include <SDL_rect.h>
+
+#include <SDL.h>
+#include <SDL_image.h>
 #define CUTE_TILED_IMPLEMENTATION
-#include "cute_tiled.h" 
-#include "makemap.h"
+#include "cute_tiled.h"
+#include "game.h"
 
-
-//SDL_Texture* createLargeTexture(Game* game, const char* path) 
-void createLargeTexture(Game_t* game, const char* path) 
+void map_create(Game_t* game, const char* path) 
 {
-    
     Map_t* map = &game->map;
     // Load the map file
     cute_tiled_map_t* tmap = cute_tiled_load_map_from_file(path, NULL);
@@ -72,26 +70,20 @@ void createLargeTexture(Game_t* game, const char* path)
             cute_tiled_free_map(tmap);
         }
 
-        if (strcmp(map_layer->name.ptr, "collision") == 0) {
-
-
+        if (strcmp(map_layer->name.ptr, "collision") == 0) 
+        {
             game->map.tile = malloc(map->height * sizeof(Tile_t*));
-            for(int i = 0; i < map->height; ++i) {
+            for(int i = 0; i < map->height; ++i) 
+            {
                 game->map.tile[i] = malloc(map->width * sizeof(Tile_t));
                 memset(game->map.tile[i], 0, map->width * sizeof(Tile_t));
             }
-
-            // game->map.tile[0][0].rect = (SDL_Rect){5*16, 10*16, 16, 16};
-            // game->map.tile[0][0].solid = true;
 
             for (int y = 0; y < map->height; ++y) 
             {
                 for (int x = 0; x < map->width; ++x) 
                 {
-                    //int tileID = map_layer->data[y * map->width + x] - 1; // Adjusting for 0 index
                     int tileID = map_layer->data[y * map->width + x];
-                    //printf("tileID=[%d]\n ",tileID);
-
                     
                     if (tileID == 1711 )  // rectangle 
                     {
@@ -141,13 +133,53 @@ void createLargeTexture(Game_t* game, const char* path)
                         game->map.tile[y][x].rect = (SDL_Rect){x*16, y*16, 16, 16};
                         game->map.tile[y][x].solid = true;
                     }
-                    
                 }
             }
         }
     }
 }
 
+void map_update(Game_t* game)
+{
+    // Update collision rectangles positions (scroll along map)
+    for (int y = 0; y < game->map.height; ++y) 
+    {
+        for (int x = 0; x < game->map.width; ++x) 
+        {
+            if (game->map.tile[y][x].solid)
+            {
+                game->map.tile[y][x].rect.x = (x * 16) - game->camera.x;
+                game->map.tile[y][x].rect.y = (y * 16) - game->camera.y;
+            }
+        }
+    }
+    // camera render rectangle
+    game->camera.srcRect = (SDL_Rect){ game->camera.x, game->camera.y, game->width, game->height };
+    game->camera.dstRect = (SDL_Rect){ 0, 0, game->width, game->height };
+}
+
+void map_render(Game_t* game)
+{
+    SDL_RenderCopy(game->renderer, game->map.texture[0], &game->camera.srcRect, &game->camera.dstRect);
+    
+    // DEBUG: render collision rectangles
+    if (game->debug)
+    {
+        SDL_SetRenderDrawColor(game->renderer, 255, 0, 0, 255); // Set color to red for debugging
+
+        for (int y = 0; y < game->map.height; ++y) 
+        {
+            for (int x = 0; x < game->map.width; ++x) 
+            {
+                if (game->map.tile[y][x].solid)
+                {
+                    SDL_RenderDrawRect(game->renderer, &game->map.tile[y][x].rect);
+                }
+            }
+        }
+        SDL_SetRenderDrawColor(game->renderer, 0, 0, 0, 255); // Reset color
+    }
+}
 
 
 

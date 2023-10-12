@@ -5,7 +5,7 @@
 int main(void) 
 {
   game_create();
-  game_run();
+  game_loop();
   game_destroy();
   return 0;
 }
