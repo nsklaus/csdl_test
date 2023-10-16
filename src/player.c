@@ -61,15 +61,78 @@ void player_update(Game_t* game, float deltaTime)
     game->player.feetRect.h = 16;
 }
 
+bool blocked;
+void move(Game_t* game, int dx, int dy) 
+{
+    //int counter =0;
+    SDL_Rect predictedRect = game->player.dstRect;
+    predictedRect.x += dx;
+    predictedRect.y += dy;
+    blocked = false;
+
+    
+    // for (int y = 0; y < game->map.height; ++y) 
+    // {
+    //     for (int x = 0; x < game->map.width; ++x) 
+    //     {
+    //         if(game->map.tile[y][x].solid)
+    //         {
+    //             counter+=1;
+    //             SDL_Rect tileRect = game->map.tile[y][x].rect;
+    //             if (SDL_HasIntersection(&predictedRect, &tileRect)) 
+    //             {
+    //                 printf("collision\n");
+    //                 blocked = true;
+    //             }
+    //         }
+    //     }
+    // }
+
+    int playerGridX = (game->player.world_x + 16 ) / 16;
+    int playerGridY = (game->player.world_y + 16) / 16;
+
+    int playerSpanX = 64 / 16;
+    int playerSpanY = 64 / 16;
+
+    for (int y = playerGridY - playerSpanY; y <= playerGridY + playerSpanY; y++) 
+    {
+        for (int x = playerGridX - playerSpanX; x <= playerGridX + playerSpanX; x++) 
+        {
+            // if (x >= 0 && x < game->map.width && y >= 0 && y < game->map.height) 
+            // {
+                //counter+=1;
+                if (SDL_HasIntersection(&predictedRect, &game->map.tile[y][x].rect)) 
+                {
+                    printf("collision\n");
+                    //printf("player.world_y=[%d] +dy=[%d] /16 = %d \n",game->player.world_y, dy, playerGridY);
+                }
+            // }
+            SDL_SetRenderDrawColor(game->renderer, 0, 255, 0, 255); // Set color to red for debugging
+            SDL_RenderDrawRect(game->renderer, &game->map.tile[y][x].rect);
+            SDL_SetRenderDrawColor(game->renderer, 0, 0, 0, 255); // Reset color
+        }
+    }
+    //printf("P.rect.x=[%d] P.rect.y=[%d] P.dx=[%d] P.dy=[%d]\n", game->player.dstRect.x, game->player.dstRect.y, game->player.dx, game->player.dy);
+    //printf("player.world_y=[%d] +dy=[%d] /16 = %d \n",game->player.world_y, dy, playerGridY);
+    //printf("counter=[%d]\n", counter);
+    if(!blocked)
+    {
+        game->player.dx = dx;
+        game->player.dy = dy;
+    }
+}
 
 void player_render(Game_t* game) 
 {
     SDL_RenderCopy(game->renderer, game->player.texture, &game->player.srcRect, &game->player.dstRect);
-
+    if (game->player.up)    { move( game,  0, -2); }
+    if (game->player.down)  { move( game,  0,  2); }
+    if (game->player.left)  { move( game, -2,  0); }
+    if (game->player.right) { move( game,  2,  0); }
     if (game->debug)
     {
         SDL_SetRenderDrawColor(game->renderer, 255, 0, 0, 255); // Set color to red for debugging
-        SDL_RenderDrawRect(game->renderer, &game->player.feetRect);
+        //SDL_RenderDrawRect(game->renderer, &game->player.feetRect);
         SDL_RenderDrawRect(game->renderer, &game->player.dstRect);
         SDL_SetRenderDrawColor(game->renderer, 0, 0, 0, 255); // Reset color
     }

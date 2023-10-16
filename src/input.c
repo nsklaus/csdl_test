@@ -48,6 +48,10 @@ void input_update(Game_t* game)
         if (event.type == SDL_KEYUP) 
         {
             if (game->player.srcRect.y != STANDING_F ) { player_animation(1, STANDING_F, game); }
+            game->player.up = false;
+            game->player.down = false;
+            game->player.left = false;
+            game->player.right = false;
             game->player.dx = 0;
             game->player.dy = 0;
         }
@@ -56,28 +60,28 @@ void input_update(Game_t* game)
         {
             if (game->player.srcRect.y != RUNNING_L ) { player_animation(9, RUNNING_L, game); }
             game->player.left = true;
-            move(game, -2,0);
+            //move(game, -2,0);
         }
 
         if (currentKeyStates[SDL_SCANCODE_RIGHT]) 
         {
             if (game->player.srcRect.y != RUNNING_R ) { player_animation(9, RUNNING_R, game); }
             game->player.right = true;
-            move(game, 2,0);
+            //move(game, 2,0);
         }
 
         if (currentKeyStates[SDL_SCANCODE_UP]) 
         {
             if (game->player.srcRect.y != RUNNING_R ) { player_animation(9, RUNNING_R, game); }
             game->player.up = true;
-            move(game, 0,-2);
+            //move(game, 0,-2);
         }
 
         if (currentKeyStates[SDL_SCANCODE_DOWN]) 
         {
             if (game->player.srcRect.y != RUNNING_R ) { player_animation(9, RUNNING_R, game); }
             game->player.down = true;
-            move(game, 0,2);
+            //move(game, 0,2);
         }
 
         if (currentKeyStates[SDL_SCANCODE_SPACE]) 
@@ -87,6 +91,7 @@ void input_update(Game_t* game)
     }
 }
 
+/*
 bool blocked;
 void move(Game_t* game, int dx, int dy) 
 {
@@ -95,6 +100,7 @@ void move(Game_t* game, int dx, int dy)
     predictedRect.x += dx;
     predictedRect.y += dy;
     blocked = false;
+
     // for (int y = 0; y < game->map.height; ++y) 
     // {
     //     for (int x = 0; x < game->map.width; ++x) 
@@ -132,9 +138,6 @@ void move(Game_t* game, int dx, int dy)
                     blocked=true;
                 }
             }
-            SDL_SetRenderDrawColor(game->renderer, 0, 255, 0, 255); // Set color to red for debugging
-            SDL_RenderDrawRect(game->renderer, &game->map.tile[y][x].rect);
-            SDL_SetRenderDrawColor(game->renderer, 0, 0, 0, 255); // Reset color
         }
     }
 
@@ -145,3 +148,4 @@ void move(Game_t* game, int dx, int dy)
         game->player.dy = dy;
     }
 }
+*/

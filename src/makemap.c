@@ -26,11 +26,11 @@ void map_create(Game_t* game, const char* path)
             SDL_Surface* largeImage = SDL_CreateRGBSurface(0, map->width * 16, map->height * 16, 32, 0, 0, 0, 0);
 
             // Load tileset
-            char *buffer;
-            asprintf(&buffer, "Assets/%s", tmap->tilesets->image.ptr);
-            
+            char buffer[512];
+            sprintf(buffer, "assets/%s", tmap->tilesets->image.ptr);
+
             SDL_Surface* tileset = IMG_Load(buffer);
-            free(buffer);
+            if(!tileset) { fprintf(stderr, "failed to load tileset %s\n", buffer); exit(1); }
 
             map->tileset_w = tileset->w;
             map->tileset_h = tileset->h;
@@ -64,7 +64,7 @@ void map_create(Game_t* game, const char* path)
             // Clean up
             SDL_FreeSurface(largeImage);
             SDL_FreeSurface(tileset);
-            cute_tiled_free_map(tmap);
+            //cute_tiled_free_map(tmap);
         }
 
         if (strcmp(map_layer->name.ptr, "collision") == 0) 

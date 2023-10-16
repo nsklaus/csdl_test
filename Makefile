@@ -10,6 +10,8 @@ SOURCES := $(wildcard $(SRCDIR)/*.c)
 OBJECTS := $(patsubst $(SRCDIR)/%.c,$(OBJDIR)/%.o,$(SOURCES))
 EXECUTABLE := $(BINDIR)/game
 
+-include config.mak
+
 all: $(EXECUTABLE)
 
 $(EXECUTABLE): $(OBJECTS)

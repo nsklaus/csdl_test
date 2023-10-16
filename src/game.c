@@ -30,7 +30,7 @@ void game_create()
     if (getcwd(cwd, sizeof(cwd)) != NULL) { printf("CWD: %s\n", cwd); }
 
     player_init(&game); 
-    map_load("./Assets/level01.json"); // Load initial map
+    map_load("./assets/level01.json"); // Load initial map
     fprintf(stderr, "game starts\n");
 }
 
@@ -70,7 +70,7 @@ void game_loop()
 
 void game_render()
 {
-    SDL_RenderClear(game.renderer);
+    //SDL_RenderClear(game.renderer);
     map_render(&game);
     player_render(&game);
     SDL_RenderPresent(game.renderer);
