@@ -3,9 +3,9 @@
 #define GAME_H
 
 //#include "makemap.h"
-#include <SDL.h>
-#include <SDL_image.h>
-#include <SDL_rect.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_rect.h>
 #include <stdbool.h>
 #include <stdio.h>
 
@@ -33,7 +33,7 @@ typedef struct {
     int tileset_w;
     int tileset_h;
     SDL_Texture* texture[2];  // layers to render (foreground and background)
-    Tile_t** tile;           // collision-layer
+    Tile_t** tile;            // collision-layer
 } Map_t;
 
 typedef struct Input {
@@ -58,10 +58,10 @@ typedef struct {
     float currentFrame;
     SDL_Texture* texture;
     bool isGrounded;        // gravity and jump
-    // bool can_move_up;
-    // bool can_move_down;
-    // bool can_move_left;
-    // bool can_move_right;
+    bool up;
+    bool down;
+    bool left;
+    bool right;
 
 } Player_t;
 

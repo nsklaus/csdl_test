@@ -42,6 +42,7 @@ void map_load(const char* path)
 
 void game_loop()
 {
+
     Uint32 lastTime = SDL_GetTicks();  // Initialize lastTime
     float frameTime = 0.0f;
 

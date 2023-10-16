@@ -1,5 +1,5 @@
 #include "player.h"
-#include <SDL_image.h>
+#include <SDL2/SDL_image.h>
 
 void player_init(Game_t* game) 
 {
@@ -60,6 +60,7 @@ void player_update(Game_t* game, float deltaTime)
     game->player.feetRect.w = 16;
     game->player.feetRect.h = 16;
 }
+
 
 void player_render(Game_t* game) 
 {

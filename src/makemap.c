@@ -1,6 +1,6 @@
 
-#include <SDL.h>
-#include <SDL_image.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #define CUTE_TILED_IMPLEMENTATION
 #include "cute_tiled.h"
 #include "game.h"
@@ -22,15 +22,12 @@ void map_create(Game_t* game, const char* path)
 
         if (strcmp(map_layer->name.ptr, "foreground") == 0) 
         {
-
             // Create a large image surface to hold the entire map
             SDL_Surface* largeImage = SDL_CreateRGBSurface(0, map->width * 16, map->height * 16, 32, 0, 0, 0, 0);
 
             // Load tileset
-            //SDL_Surface* tileset = IMG_Load("Assets/blueMetal.png");
             char *buffer;
             asprintf(&buffer, "Assets/%s", tmap->tilesets->image.ptr);
-            //printf("tileset=[%s]\n",buffer);
             
             SDL_Surface* tileset = IMG_Load(buffer);
             free(buffer);

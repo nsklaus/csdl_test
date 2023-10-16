@@ -1,7 +1,7 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include <stdbool.h>
 #include "game.h"
 #include "input.h"

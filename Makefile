@@ -1,5 +1,5 @@
 CC := gcc
-CFLAGS := -Wall -Wextra -std=c99 -g -I/opt/homebrew/include/SDL2
+CFLAGS := -Wall -Wextra -std=c99 -g -I/opt/homebrew/include/
 LDFLAGS := -L/opt/homebrew/lib -lSDL2 -lSDL2_image
 
 SRCDIR := src
