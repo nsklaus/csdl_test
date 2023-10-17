@@ -134,6 +134,7 @@ void map_create(Game_t* game, const char* path)
             }
         }
     }
+    cute_tiled_free_map(tmap);
 }
 
 void map_update(Game_t* game)

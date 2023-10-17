@@ -52,6 +52,7 @@ void input_update(Game_t* game)
             game->player.down = false;
             game->player.left = false;
             game->player.right = false;
+            game->player.blocked = false;
             game->player.dx = 0;
             game->player.dy = 0;
         }

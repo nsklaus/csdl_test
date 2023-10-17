@@ -62,6 +62,7 @@ typedef struct {
     bool down;
     bool left;
     bool right;
+    bool blocked;           // cannot move (collision)
 
 } Player_t;
 

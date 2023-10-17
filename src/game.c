@@ -70,7 +70,7 @@ void game_loop()
 
 void game_render()
 {
-    //SDL_RenderClear(game.renderer);
+    SDL_RenderClear(game.renderer);
     map_render(&game);
     player_render(&game);
     SDL_RenderPresent(game.renderer);
