@@ -23,7 +23,6 @@ void input_update(Game_t* game)
     if (event.type == SDL_QUIT)
     {
       game->quitting = true;
-      return;
     }
 
     if (event.type == SDL_KEYDOWN)
@@ -40,6 +39,10 @@ void input_update(Game_t* game)
         case SDLK_f:
           game->fullscreen = true;
           toggle_fullscreen(game);
+          break;
+
+        case SDLK_ESCAPE:
+          game->quitting = true;
           break;
       }
     }

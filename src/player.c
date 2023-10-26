@@ -68,10 +68,10 @@ void player_update(Game_t* game, float deltaTime)
   game->player.dstRect.y = game->player.world_y - game->camera.y;
 
   // wip: player additional collision rectangles
-  game->player.feetRect.x = game->player.dstRect.x+16;
-  game->player.feetRect.y =  game->player.dstRect.y+game->player.dstRect.h;
-  game->player.feetRect.w = 16;
-  game->player.feetRect.h = 16;
+  game->player.feetRect.x = game->player.dstRect.x+10;
+  game->player.feetRect.y =  game->player.dstRect.y + game->player.dstRect.h;
+  game->player.feetRect.w = game->player.dstRect.w -20;
+  game->player.feetRect.h = 5;
 
 
     apply_gravity(game);
