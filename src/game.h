@@ -57,12 +57,17 @@ typedef struct {
     int frameCount;
     float currentFrame;
     SDL_Texture* texture;
-    bool isGrounded;        // gravity and jump
+    bool grounded;        // gravity and jump
     bool up;
     bool down;
     bool left;
     bool right;
+    bool jump;
     bool blocked;           // cannot move (collision)
+    int playerGridX;
+    int playerGridY;
+    int playerSpanX;
+    int playerSpanY;
 
 } Player_t;
 
