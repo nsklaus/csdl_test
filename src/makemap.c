@@ -92,6 +92,7 @@ void map_create(Game_t* game, const char* path)
           {
             //printf("x=[%d] y=[%d]\n",x,y);
             game->map.tile[y][x].rect = (SDL_Rect){x*16, y*16, 16, 16};
+            //game->map.tile[y][x].line = (Line_t){x * 16, y * 16, (x * 16) + 16, (y + 15) * 16};
             game->map.tile[y][x].solid = true;
           }
 

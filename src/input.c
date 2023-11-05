@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include "player.h"
 
-const float jumpStrength = -5.0f;
+//const float jumpStrength = -5.0f;
 
 void toggle_fullscreen(Game_t* game) 
 {
@@ -54,7 +54,9 @@ void input_update(Game_t* game)
       game->player.left = false;
       game->player.right = false;
       game->player.jump = false;
-      game->player.blocked = false;
+      game->player.jumping = false;
+      game->player.jump_release = true;
+      // game->player.blocked = false;
       game->player.dx = 0;
       game->player.dy = 0;
     }
@@ -88,6 +90,7 @@ void input_update(Game_t* game)
       //if (game->player.grounded) { game->player.vy = jumpStrength; }
       if (game->player.srcRect.y != JUMPING_R ) { player_animation(7, JUMPING_R, game); }
       game->player.jump = true;
+
     }
   }
 }

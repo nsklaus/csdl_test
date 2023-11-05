@@ -18,12 +18,17 @@ typedef struct
     //int speed; 
 } Camera;
 
+// typedef struct {
+//   int x1, y1, x2, y2;
+// } Line_t;
+
 typedef struct {
     char* type;     // doors, switches, pickup objects, elevators, floors, walls, ceillings ..
     int value;      // in case of doors: room number it links to.
     bool active;    // in case of switches, elevators and such
     bool solid;     // for collision
     SDL_Rect rect;
+    //Line_t line;
 } Tile_t;
 
 typedef struct {
@@ -53,7 +58,11 @@ typedef struct {
     int world_y;
     SDL_Rect srcRect;
     SDL_Rect dstRect;
+    SDL_Rect leftRect;
+    SDL_Rect rightRect;
+    SDL_Rect headRect;
     SDL_Rect feetRect;      // test if onGround
+    SDL_Rect playerRect;
     int frameCount;
     float currentFrame;
     SDL_Texture* texture;
@@ -63,6 +72,8 @@ typedef struct {
     bool left;
     bool right;
     bool jump;
+    bool jumping;
+    bool jump_release;
     bool blocked;           // cannot move (collision)
     int playerGridX;
     int playerGridY;
