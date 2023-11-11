@@ -25,7 +25,7 @@ typedef enum
 
 void player_init(Game_t* game);
 void player_update(Game_t* game, float deltaTime);
-void player_move(Game_t* game, int dx, int dy);
+void move(Game_t* game, float deltaTime);
 void grounded(Game_t* game);
 void apply_gravity(Game_t* game);
 void player_render(Game_t* game);

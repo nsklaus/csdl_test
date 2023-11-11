@@ -48,6 +48,7 @@ typedef struct Input {
     bool right;
     bool action;
     bool jump;
+    bool jump_released;
 } Input_t;
 
 typedef struct {
@@ -67,13 +68,13 @@ typedef struct {
     float currentFrame;
     SDL_Texture* texture;
     bool grounded;        // gravity and jump
-    bool up;
-    bool down;
-    bool left;
-    bool right;
-    bool jump;
+    bool blocked_up;
+    bool blocked_down;
+    bool blocked_left;
+    bool blocked_right;
+    bool blocked_jump;
     bool jumping;
-    bool jump_release;
+    bool jump_released;
     bool blocked;           // cannot move (collision)
     int playerGridX;
     int playerGridY;

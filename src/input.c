@@ -49,48 +49,43 @@ void input_update(Game_t* game)
     if (event.type == SDL_KEYUP)
     {
       if (game->player.srcRect.y != STANDING_F ) { player_animation(1, STANDING_F, game); }
-      game->player.up = false;
-      game->player.down = false;
-      game->player.left = false;
-      game->player.right = false;
-      game->player.jump = false;
-      game->player.jumping = false;
-      game->player.jump_release = true;
-      // game->player.blocked = false;
-      game->player.dx = 0;
-      game->player.dy = 0;
+      game->input.up = false;
+      game->input.down = false;
+      game->input.left = false;
+      game->input.right = false;
+      game->input.jump = false;
+      game->input.jump_released = true;
     }
 
     if (currentKeyStates[SDL_SCANCODE_LEFT])
     {
       if (game->player.srcRect.y != RUNNING_L ) { player_animation(9, RUNNING_L, game); }
-      game->player.left = true;
+      game->input.left = true;
     }
 
     if (currentKeyStates[SDL_SCANCODE_RIGHT])
     {
       if (game->player.srcRect.y != RUNNING_R ) { player_animation(9, RUNNING_R, game); }
-      game->player.right = true;
+      game->input.right = true;
     }
 
     if (currentKeyStates[SDL_SCANCODE_UP])
     {
       if (game->player.srcRect.y != RUNNING_R ) { player_animation(9, RUNNING_R, game); }
-      game->player.up = true;
+      game->input.up = true;
     }
 
     if (currentKeyStates[SDL_SCANCODE_DOWN])
     {
       if (game->player.srcRect.y != RUNNING_R ) { player_animation(9, RUNNING_R, game); }
-      game->player.down = true;
+      game->input.down = true;
     }
 
     if (currentKeyStates[SDL_SCANCODE_SPACE])
     {
       //if (game->player.grounded) { game->player.vy = jumpStrength; }
       if (game->player.srcRect.y != JUMPING_R ) { player_animation(7, JUMPING_R, game); }
-      game->player.jump = true;
-
+      game->input.jump = true; game->input.jump_released = false;
     }
   }
 }

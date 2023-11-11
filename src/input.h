@@ -6,7 +6,7 @@
 #include "game.h"
 
 void input_update(Game_t* game);
-void move(Game_t* game, int dx, int dy);
+//void move(Game_t* game, int dx, int dy);
 // void toggle_fullscreen(Game_t* game);
 // void apply_gravity(Game_t* game);
 // void move_player(Game_t* game, int dx, int dy);

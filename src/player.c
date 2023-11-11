@@ -11,14 +11,14 @@ SDL_Rect area;
 
 //int isJumping = 0;
 float jumpTimer = 0.0f;
-float jumpDuration = 1.0f;
-//float jumpStrength = -2.0f;
+float jumpDuration = 0.8f;
+float jumpStrength = -4.0f;
 
 
 void player_init(Game_t* game) 
 {
   game->player.world_x = 150;           // initial position
-  game->player.world_y = 176;
+  game->player.world_y = 170;
 
   game->player.srcRect.x = 0;           // cutting in spritesheet
   game->player.srcRect.y = STANDING_F;  // standing sprite (6th row)
@@ -35,13 +35,12 @@ void player_init(Game_t* game)
 
   // Load the player's texture
   game->player.texture = IMG_LoadTexture(game->renderer, "assets/samus.png");
-  game->player.grounded = true;
-  game->player.jump_release = true;
+  // game->player.grounded = true;
+  // game->player.jump_released = true;
 }
 
 void player_update(Game_t* game, float deltaTime) 
 {
-
   // animation
   game->player.currentFrame += 10.0f * deltaTime;  // 10.0f is the speed of the animation
   if (game->player.currentFrame >= game->player.frameCount) {
@@ -71,30 +70,6 @@ void player_update(Game_t* game, float deltaTime)
   game->player.dstRect.x = game->player.world_x - game->camera.x;
   game->player.dstRect.y = game->player.world_y - game->camera.y;
 
-  /*
-  // wip: player additional collision rectangles
-  game->player.headRect.x = game->player.dstRect.x + 14;
-  game->player.headRect.y = game->player.dstRect.y - 5;
-  game->player.headRect.w = game->player.dstRect.w - 26;
-  game->player.headRect.h = 5;
-*/
-
-  game->player.feetRect.x = game->player.dstRect.x + 14;
-  game->player.feetRect.y = game->player.dstRect.y + game->player.dstRect.h;
-  game->player.feetRect.w = game->player.dstRect.w - 26;
-  game->player.feetRect.h = 5;
-/*
-  game->player.leftRect.x = game->player.dstRect.x ;
-  game->player.leftRect.y = game->player.dstRect.y ;
-  game->player.leftRect.w = 5;
-  game->player.leftRect.h = game->player.dstRect.h;
-
-  game->player.rightRect.x = game->player.dstRect.x + game->player.dstRect.w;
-  game->player.rightRect.y = game->player.dstRect.y;
-  game->player.rightRect.w = 5;
-  game->player.rightRect.h = game->player.dstRect.h;
-  */
-
   // determine area around player,
   // to limit number of candidates for collision test.
   playerGridX = (game->player.world_x +24 ) / 16;
@@ -111,53 +86,20 @@ void player_update(Game_t* game, float deltaTime)
     area.h = 2* playerSpanY *16;
   }
 
-  if (game->player.jump && game->player.jumping)
-  {
-    if (jumpTimer < jumpDuration) { jumpTimer += deltaTime; }
-    if (jumpTimer >= jumpDuration) {
-      game->player.jumping = false;
-      game->player.jump= false;
-      jumpTimer = 0;}
-  }
-
-  apply_gravity(game);
+  move(game, deltaTime);
 }
 
-void apply_gravity(Game_t* game)
+void move(Game_t* game, float deltaTime)
 {
-  grounded(game);
-  if (!game->player.grounded && !(game->player.jumping))
-  {
-    game->player.world_y += gravity;
-  }
-}
+  int dx = 2;
+  int dy = 2;
 
-void grounded(Game_t* game)
-{
-  for (int y = playerGridY - playerSpanY; y <= playerGridY + playerSpanY; y++)
-  {
-    for (int x = playerGridX - playerSpanX; x <= playerGridX + playerSpanX; x++)
-    {
-      if ((y >= 0) && (x >= 0) && y <= game->map.height && x <= game->map.width &&
-        (game->map.tile[y][x].rect.x != 0 || game->map.tile[y][x].rect.y != 0))
-      {
-        if (SDL_HasIntersection(&game->player.feetRect,&game->map.tile[y][x].rect))
-        {
-          game->player.dstRect.y = game->map.tile[y][x].rect.y - game->player.dstRect.w;
-          game->player.grounded = true;
-          return;
-        }
-        //printf("playerGridX=[%d] playerGridY=[%d] playerSpanX=[%d] playerSpanY=[%d]\n",
-        //playerGridX,playerGridY,playerSpanX,playerSpanY);
-        //printf("x=[%d]  y=[%d]\n",x,y);
-      }
-    }
-  }
+  game->player.blocked_jump = false;
+  game->player.blocked_up = false;
+  game->player.blocked_down = false;
+  game->player.blocked_left = false;
+  game->player.blocked_right = false;
   game->player.grounded = false;
-}
-
-void move(Game_t* game, int dx, int dy) 
-{
 
   game->player.playerRect.x = game->player.dstRect.x + 10;
   game->player.playerRect.y = game->player.dstRect.y;
@@ -185,116 +127,74 @@ void move(Game_t* game, int dx, int dy)
                                  game->map.tile[y][x].rect.y + game->map.tile[y][x].rect.h) -
                                  SDL_max(game->player.playerRect.y, game->map.tile[y][x].rect.y);
 
-          //printf("overlapX=[%d] overlapY=[%d]\n",overlapX, overlapY);
-          //printf("playerRect.y=[%d] tile[y][x].rect.y=[%d]\n\n", game->player.playerRect.y,
-          //                       game->map.tile[y][x].rect.y);
           if (overlapY < overlapX)
           {
             if (game->player.playerRect.y > game->map.tile[y][x].rect.y)
             {
               // Collision on the top side
-              game->player.jump = false;
+              game->player.blocked_jump = true;
+              game->player.blocked_up = true;
+              jumpTimer = 0;
               game->player.jumping = false;
-              game->player.jump_release = false;
-              game->player.playerRect.y = game->map.tile[y][x].rect.y + game->map.tile[y][x].rect.h;
-              printf("set game->player.up to false\n");
-              break;
+              game->player.playerRect.y = game->map.tile[y][x].rect.y + game->map.tile[y][x].rect.h +1;
+              printf("bleeep\n");
             }
             if (game->player.playerRect.y < game->map.tile[y][x].rect.y)
             {
               // Collision on the bottom side
-              //game->player.down = false;
               game->player.grounded = true;
-              game->player.playerRect.y = game->map.tile[y][x].rect.y - game->player.dstRect.h;
-              printf("set game->player.down to false\n");
-              break;
+              game->player.blocked_down = true;
+              game->player.playerRect.y = game->map.tile[y][x].rect.y - game->player.dstRect.h +1;
+              game->player.dstRect.y = game->map.tile[y][x].rect.y - game->player.dstRect.h +1;
             }
           }
-
           if (overlapY > overlapX )
           {
-            // printf("playerRect.x=[%d] tile[y][x].rect.x=[%d]\n",
-            // game->player.playerRect.x,  game->map.tile[y][x].rect.x);
             if (game->player.playerRect.x > game->map.tile[y][x].rect.x)
             {
               // Collision on the left side
-              game->player.left = false;
-              game->player.playerRect.x = game->map.tile[y][x].rect.x + game->map.tile[y][x].rect.w;
-              printf("set game->player.left to false\n");
-              break;
+              game->player.blocked_left = true;
+              game->player.playerRect.x = game->map.tile[y][x].rect.x + game->map.tile[y][x].rect.w +1;
+              printf("LEFT\n");
             }
             if (game->player.playerRect.x < game->map.tile[y][x].rect.x)
             {
               // Collision on the right side
-              game->player.right = false;
-              game->player.playerRect.x = game->map.tile[y][x].rect.x - game->player.playerRect.w;
-              printf("set game->player.right to false\n");
-              break;
+              game->player.blocked_right = true;
+              game->player.playerRect.x = game->map.tile[y][x].rect.x - game->player.playerRect.w +1;
+              printf("RIGHT\n");
             }
           }
         }
       }
     }
   }
-  //printf("game->player.right=[%s]\n",game->player.right ? "true" : "false");
-  if (game->player.jump && game->player.grounded && game->player.jump_release)
+  // printf("\n i_jump=[%d], i_up=[%d], i_down=[%d], i_left=[%d], i_right=[%d], p_ground=[%d], i_released=[%d], p_blockedjump=[%d]\n",
+  //        game->input.jump, game->input.up, game->input.down , game->input.left,
+  //        game->input.right, game->player.grounded, game->input.jump_released, game->player.blocked_jump);
+
+
+
+  if (game->input.left && !(game->player.blocked_left)) {game->player.world_x -= dx;}
+  if (game->input.right && !(game->player.blocked_right)) {game->player.world_x += dx;}
+
+  if (game->input.jump && !(game->player.blocked_jump) && game->player.grounded ) { game->player.jumping = true; }
+
+  if (game->player.jumping && !(game->player.blocked_jump))
   {
-    printf("init jump \n");
-    game->player.jumping = true;
+    //printf("\n jumpTimer=[%f] delta=[%f]\n",jumpTimer, deltaTime );
+    if(jumpTimer < jumpDuration) { jumpTimer += deltaTime; game->player.world_y -= dy ; }
+    if(jumpTimer >= jumpDuration) { jumpTimer = 0; game->player.jumping = false;}
   }
 
-  if (game->player.jumping)
+  if (!game->player.grounded && !(game->player.jumping) && !(game->player.blocked_down))
   {
-    printf("jumping \n");
-    if(jumpTimer >= jumpDuration) { game->player.jump_release = false; printf("\n\n BLEEEEEH\n\n");}
-    if(jumpTimer < jumpDuration) { game->player.world_y += dy; }
-    //if(jumpTimer >= jumpDuration) { game->player.jump_release = false; }
+    game->player.world_y += 1;
   }
 
-  if (game->player.down) {game->player.world_y += dy;}
-  if (game->player.left) {game->player.world_x += dx;}
-  if (game->player.right) {game->player.world_x += dx;}
-
-  game->player.blocked = false;
-  printf("grounded=[%s]\n",game->player.grounded ? "true" : "false");
-
-
-  /*
-   *  // Vertical Collision Detection
-   *  i *f (dy > 0) {
-   *  // Player is moving down
-   *  // Check for collisions in the downward direction only
-   *  // Adjust the player's vertical position accordingly
-   *  // ...
-} else if (dy < 0) {
-  // Player is moving up
-  // Check for collisions in the upward direction only
-  // Adjust the player's vertical position accordingly
-  // ...
 }
 
 
-if (playerIsOnGround && userPressesJumpKey && !isJumping) {
-  isJumping = 1;
-  jumpTimer = 0.0f;  // Reset the jump timer
-}
-
-if (isJumping) {
-  player_update(&game, deltaTime); // Pass deltaTime to player update
-  jumpTimer += deltaTime;  // Update the jump timer
-  if (jumpTimer >= jumpDuration) {
-    isJumping = 0;  // The jump duration has passed, stop jumping
-}
-}
-
-
-*/
-}
-
-
-
-
-// how much frames for a given anim type
 void player_animation(int frameCount, AnimationType animType, Game_t* game)
 {
   game->player.frameCount = frameCount;
@@ -306,26 +206,17 @@ void player_render(Game_t* game)
   SDL_RenderCopy(game->renderer, game->player.texture, &game->player.srcRect, &game->player.dstRect);
 
 
-  if (!game->player.blocked)
-  {
-    if (game->player.jump && game->player.jump_release)  { move( game,  0, -2); }
-    if (game->player.down)  { move( game,  0,  2); }
-    if (game->player.left)  { move( game, -2,  0); }
-    if (game->player.right) { move( game,  2,  0); }
-  }
+  // if (!game->player.blocked)
+  // {
+  //   if (game->player.jump && game->player.jump_release)  { move( game,  0, -2); }
+  //   if (game->player.down)  { move( game,  0,  2); }
+  //   if (game->player.left)  { move( game, -2,  0); }
+  //   if (game->player.right) { move( game,  2,  0); }
+  // }
 
   if (game->debug)
   {
-    // area.x = game->player.world_x +24 - playerSpanX *16 - game->camera.x;
-    // area.y = game->player.world_y +24 - playerSpanY *16 - game->camera.y;
-    // area.w = 2* playerSpanX *16;
-    // area.h = 2* playerSpanY *16;
-
     SDL_SetRenderDrawColor(game->renderer, 255, 0, 0, 255); // red
-    // SDL_RenderDrawRect(game->renderer, &game->player.headRect);
-    // SDL_RenderDrawRect(game->renderer, &game->player.feetRect);
-    // SDL_RenderDrawRect(game->renderer, &game->player.leftRect);
-    // SDL_RenderDrawRect(game->renderer, &game->player.rightRect);
     // SDL_RenderDrawRect(game->renderer, &game->player.dstRect); // player sprite size
     SDL_RenderDrawRect(game->renderer, &game->player.playerRect);
     SDL_SetRenderDrawColor(game->renderer, 255, 255, 0, 255); // yellow
