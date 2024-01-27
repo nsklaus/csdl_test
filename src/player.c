@@ -188,7 +188,7 @@ void move(Game_t* game, float deltaTime)
   // apply gravity if there is nothing under player's feet
   if (!game->player.grounded && !(game->player.jumping) && !(game->player.blocked_down))
   {
-    game->player.world_y += 2;
+    game->player.world_y += 1;
   }
 }
 
