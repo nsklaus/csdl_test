@@ -23,6 +23,7 @@ typedef enum
 
 } AnimationType;
 
+
 void player_init(Game_t* game);
 void player_update(Game_t* game, float deltaTime);
 void move(Game_t* game, float deltaTime);

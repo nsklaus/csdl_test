@@ -15,6 +15,7 @@ float jumpDuration = 0.8f;
 float jumpStrength = -4.0f;
 
 
+
 void player_init(Game_t* game) 
 {
   game->player.world_x = 150;           // initial position
@@ -35,8 +36,6 @@ void player_init(Game_t* game)
 
   // Load the player's texture
   game->player.texture = IMG_LoadTexture(game->renderer, "assets/samus.png");
-  // game->player.grounded = true;
-  // game->player.jump_released = true;
 }
 
 void player_update(Game_t* game, float deltaTime) 
@@ -137,7 +136,7 @@ void move(Game_t* game, float deltaTime)
               jumpTimer = 0;
               game->player.jumping = false;
               game->player.playerRect.y = game->map.tile[y][x].rect.y + game->map.tile[y][x].rect.h +1;
-              printf("bleeep\n");
+              //printf("TOP\n");
             }
             if (game->player.playerRect.y < game->map.tile[y][x].rect.y)
             {
@@ -155,43 +154,42 @@ void move(Game_t* game, float deltaTime)
               // Collision on the left side
               game->player.blocked_left = true;
               game->player.playerRect.x = game->map.tile[y][x].rect.x + game->map.tile[y][x].rect.w +1;
-              printf("LEFT\n");
+              //printf("LEFT\n");
             }
             if (game->player.playerRect.x < game->map.tile[y][x].rect.x)
             {
               // Collision on the right side
               game->player.blocked_right = true;
               game->player.playerRect.x = game->map.tile[y][x].rect.x - game->player.playerRect.w +1;
-              printf("RIGHT\n");
+              //printf("RIGHT\n");
             }
           }
         }
       }
     }
   }
-  // printf("\n i_jump=[%d], i_up=[%d], i_down=[%d], i_left=[%d], i_right=[%d], p_ground=[%d], i_released=[%d], p_blockedjump=[%d]\n",
-  //        game->input.jump, game->input.up, game->input.down , game->input.left,
-  //        game->input.right, game->player.grounded, game->input.jump_released, game->player.blocked_jump);
-
-
 
   if (game->input.left && !(game->player.blocked_left)) {game->player.world_x -= dx;}
   if (game->input.right && !(game->player.blocked_right)) {game->player.world_x += dx;}
 
+  // prepare for jump
   if (game->input.jump && !(game->player.blocked_jump) && game->player.grounded ) { game->player.jumping = true; }
 
+  // condition for jump ok, initiate jump
   if (game->player.jumping && !(game->player.blocked_jump))
   {
-    //printf("\n jumpTimer=[%f] delta=[%f]\n",jumpTimer, deltaTime );
     if(jumpTimer < jumpDuration) { jumpTimer += deltaTime; game->player.world_y -= dy ; }
-    if(jumpTimer >= jumpDuration) { jumpTimer = 0; game->player.jumping = false;}
+    if(jumpTimer >= jumpDuration ) { jumpTimer = 0; game->player.jumping = false;}
   }
 
+  // key released, abort jump
+  if ((game->input.jump_released)) { jumpTimer = 0; game->player.jumping = false;}
+
+  // apply gravity if there is nothing under player's feet
   if (!game->player.grounded && !(game->player.jumping) && !(game->player.blocked_down))
   {
-    game->player.world_y += 1;
+    game->player.world_y += 2;
   }
-
 }
 
 
@@ -204,15 +202,6 @@ void player_animation(int frameCount, AnimationType animType, Game_t* game)
 void player_render(Game_t* game) 
 {
   SDL_RenderCopy(game->renderer, game->player.texture, &game->player.srcRect, &game->player.dstRect);
-
-
-  // if (!game->player.blocked)
-  // {
-  //   if (game->player.jump && game->player.jump_release)  { move( game,  0, -2); }
-  //   if (game->player.down)  { move( game,  0,  2); }
-  //   if (game->player.left)  { move( game, -2,  0); }
-  //   if (game->player.right) { move( game,  2,  0); }
-  // }
 
   if (game->debug)
   {

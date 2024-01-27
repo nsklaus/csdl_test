@@ -55,6 +55,9 @@ void input_update(Game_t* game)
       game->input.right = false;
       game->input.jump = false;
       game->input.jump_released = true;
+      // game->player.jumping = false;
+      // game->player.jump
+      printf("jump_released\n");
     }
 
     if (currentKeyStates[SDL_SCANCODE_LEFT])
